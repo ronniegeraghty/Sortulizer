@@ -9,13 +9,17 @@ import {
 } from "react-bootstrap";
 import "./navbar.css";
 
-const NavBar = () => {
+const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
-  const [subArrayLength, setSubArrayLength] = useState();
-  const [sortType, setSortType] = useState();
+  const [sortType, setSortType] = useState(undefined);
+  const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: ");
 
   const randomizeArray = () => {
-    setSubArrayLength(arrayLength);
+    props.radArrCB(arrayLength);
+  };
+
+  const sortArray = () => {
+    props.sortArrCB(sortType);
   };
 
   return (
@@ -41,23 +45,35 @@ const NavBar = () => {
             </Form>
           </div>
           <div className="selectors">
-            <NavDropdown title="Algorithm" id="basic-nav-dropdown" className="">
-              <NavDropdown.Item onClick={e => setSortType("bubble")}>
+            <NavDropdown
+              title={algorithmTitle}
+              id="basic-nav-dropdown"
+              className=""
+            >
+              <NavDropdown.Item
+                onClick={e => {
+                  setSortType("bubble");
+                  setAlgorithmTitle("Algorithm: Bubble");
+                }}
+              >
                 Bubble Sort
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={e => setSortType("merge")}>
+              <NavDropdown.Item
+                onClick={e => {
+                  setSortType("merge");
+                  setAlgorithmTitle("Algorithm: Merge");
+                }}
+              >
                 Merge Sort
               </NavDropdown.Item>
             </NavDropdown>
           </div>
 
-          <Button className="" variant="outline-info">
+          <Button onClick={sortArray} variant="outline-info">
             Sort Array
           </Button>
         </Nav>
       </Navbar>
-      <h1>SubArrayLength: {subArrayLength}</h1>
-      <h1>SortType: {sortType}</h1>
     </div>
   );
 };
