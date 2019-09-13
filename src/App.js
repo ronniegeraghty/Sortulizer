@@ -7,7 +7,7 @@ import "./App.css";
 function App() {
   const [arrayLength, setArrayLength] = useState(undefined); //Remove arrayLength Not needed anymore
   const [sortType, setSortType] = useState(undefined);
-  const [array, setArray] = useState(undefined);
+  const [array, setArray] = useState(undefined || []);
 
   const randomizeArray = arrLen => {
     setArrayLength(arrLen); //Remove arrayLength
