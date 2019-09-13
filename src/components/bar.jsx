@@ -20,7 +20,7 @@ const Bar = props => {
     resizeBars();
     window.addEventListener("resize", resizeBars);
     return () => window.removeEventListener("resize", resizeBars);
-  }, [props.arrayLength]);
+  }, [props.arrayLength]); //runs on update to props.arrayLength and window resizing
 
   return (
     <span className="bar" style={barStyle}>
