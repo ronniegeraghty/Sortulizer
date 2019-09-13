@@ -3,20 +3,25 @@ import "./bar.css";
 
 const Bar = props => {
   const [barStyle, setBarStyle] = useState({
-    width: window.innerWidth / props.arrayLength
+    width: window.innerWidth / (props.arrayLength * 1.2)
   });
-
   const [verticalSize, setVerticalSize] = useState({
-    height: props.number * 10
+    height: (props.number / props.arrayLength) * (window.innerHeight / 1.7)
   });
-
-  let resizeBars = () => {
-    setBarStyle({
-      width: window.innerWidth / props.arrayLength
-    });
-  };
+  const [numFontSize, setNumFontSize] = useState(
+    window.innerWidth / (props.arrayLength * 1.5)
+  );
 
   useEffect(() => {
+    let resizeBars = () => {
+      setBarStyle({
+        width: window.innerWidth / (props.arrayLength * 1.2)
+      });
+      setVerticalSize({
+        height: (props.number / props.arrayLength) * (window.innerHeight / 1.7)
+      });
+      setNumFontSize(window.innerWidth / (props.arrayLength * 1.5));
+    };
     resizeBars();
     window.addEventListener("resize", resizeBars);
     return () => window.removeEventListener("resize", resizeBars);
@@ -24,11 +29,11 @@ const Bar = props => {
 
   return (
     <span className="bar" style={barStyle}>
-      {console.log("NUM: " + props.number)}
-      {console.log("ARRAYLENGTH: " + props.arrayLength)}
-      {console.log("BARSTYLE: " + JSON.stringify(barStyle))}
-      <p className="number">{props.number}</p>
+      <p className="number" style={{ fontSize: numFontSize }}>
+        {props.number}
+      </p>
       <div className="vertical" style={verticalSize}></div>{" "}
+      <p className="invisible">S</p>
     </span>
   );
 };

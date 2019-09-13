@@ -19,5 +19,6 @@ function shuffle(array) {
 }
 
 export const arrayCreator = arrayLength => {
-  return shuffle([...Array(arrayLength).keys()]);
+  return shuffle([...Array(arrayLength).keys()]); //returns random order
+  // return [...Array(arrayLength).keys()];       //returns in order
 };
