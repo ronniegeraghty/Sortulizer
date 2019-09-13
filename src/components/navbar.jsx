@@ -15,7 +15,7 @@ const NavBar = props => {
   const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: ");
 
   const randomizeArray = () => {
-    props.radArrCB(arrayLength);
+    props.radArrCB(parseInt(arrayLength, 10));
   };
 
   const sortArray = () => {
@@ -26,7 +26,7 @@ const NavBar = props => {
     <div>
       <Navbar bg="dark" variant="dark">
         <div className="nav-brand">
-          <Navbar.Brand href="#home">Sortulizer</Navbar.Brand>
+          <Navbar.Brand href="/">Sortulizer</Navbar.Brand>
         </div>
 
         <Nav className="mr-auto">
