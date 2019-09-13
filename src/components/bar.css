@@ -1,13 +1,12 @@
 .bar {
   display: inline-block;
-  width: 1rem;
 }
 .number {
   margin: auto;
 }
 .vertical {
-  width: auto;
   border-right: 1px solid white;
   border-left: 1px solid white;
   background-color: black;
+  margin: 0 auto;
 }

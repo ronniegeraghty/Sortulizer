@@ -23,8 +23,6 @@ function App() {
   return (
     <div className="App">
       <NavBar radArrCB={randomizeArray} sortArrCB={sortArray} />
-      <h1>ARRAYLENGTH: {arrayLength}</h1>
-      <h1>SORTTYPE: {sortType}</h1>
       <Visualizer arr={array} />
     </div>
   );
