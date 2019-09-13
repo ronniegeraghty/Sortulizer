@@ -1,9 +1,9 @@
 import React from "react";
 
-const Visualizer = () => {
+const Visualizer = props => {
   return (
     <div>
-      <h1></h1>
+      <h1>Array: {props.arr}</h1>
     </div>
   );
 };

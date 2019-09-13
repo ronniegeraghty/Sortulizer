@@ -14,7 +14,8 @@ const NavBar = props => {
   const [sortType, setSortType] = useState(undefined);
   const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: ");
 
-  const randomizeArray = () => {
+  const randomizeArray = e => {
+    e.preventDefault();
     props.radArrCB(parseInt(arrayLength, 10));
   };
 
@@ -31,7 +32,7 @@ const NavBar = props => {
 
         <Nav className="mr-auto">
           <div className="selectors">
-            <Form inline className="">
+            <Form inline onSubmit={randomizeArray}>
               <FormControl
                 type="text"
                 placeholder="Array Length"

@@ -5,12 +5,12 @@ import { arrayCreator } from "./functions/arrayCreator";
 import "./App.css";
 
 function App() {
-  const [arrayLength, setArrayLength] = useState(undefined);
+  const [arrayLength, setArrayLength] = useState(undefined); //Remove arrayLength Not needed anymore
   const [sortType, setSortType] = useState(undefined);
   const [array, setArray] = useState(undefined);
 
   const randomizeArray = arrLen => {
-    setArrayLength(arrLen);
+    setArrayLength(arrLen); //Remove arrayLength
     setArray(arrayCreator(arrLen));
     console.log(array);
   };
@@ -25,8 +25,7 @@ function App() {
       <NavBar radArrCB={randomizeArray} sortArrCB={sortArray} />
       <h1>ARRAYLENGTH: {arrayLength}</h1>
       <h1>SORTTYPE: {sortType}</h1>
-      <p>ARRAY: {array}</p>
-      <Visualizer />
+      <Visualizer arr={array} />
     </div>
   );
 }
