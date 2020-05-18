@@ -8,6 +8,6 @@
 .vertical {
   border-right: 1px solid white;
   border-left: 1px solid white;
-  background-color: black;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
   margin: 0 auto;
 }
