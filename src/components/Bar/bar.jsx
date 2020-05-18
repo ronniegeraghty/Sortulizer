@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./bar.css";
 
-const Bar = props => {
+const Bar = (props) => {
   const [barStyle, setBarStyle] = useState({
-    width: window.innerWidth / (props.arrayLength * 1.2)
+    width: window.innerWidth / (props.arrayLength * 1.2),
   });
   const [verticalSize, setVerticalSize] = useState({
-    height: (props.number / props.arrayLength) * (window.innerHeight / 1.7)
+    height: (props.number / props.arrayLength) * (window.innerHeight / 1.7),
   });
   const [numFontSize, setNumFontSize] = useState(
     window.innerWidth / (props.arrayLength * 1.5)
@@ -15,10 +15,10 @@ const Bar = props => {
   useEffect(() => {
     let resizeBars = () => {
       setBarStyle({
-        width: window.innerWidth / (props.arrayLength * 1.2)
+        width: window.innerWidth / (props.arrayLength * 1.2),
       });
       setVerticalSize({
-        height: (props.number / props.arrayLength) * (window.innerHeight / 1.7)
+        height: (props.number / props.arrayLength) * (window.innerHeight / 1.7),
       });
       setNumFontSize(window.innerWidth / (props.arrayLength * 1.5));
     };
@@ -28,7 +28,7 @@ const Bar = props => {
   }, [props.arrayLength, props.number]); //runs on update to props.arrayLength and window resizing
 
   return (
-    <span className="bar" style={barStyle}>
+    <span className="bar">
       <p className="number" style={{ fontSize: numFontSize }}>
         {props.number}
       </p>

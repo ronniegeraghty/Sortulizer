@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import NavBar from "./components/navbar";
-import Visualizer from "./components/visualizer";
+import NavBar from "./components/NavBar/navbar";
+import Visualizer from "./components/Visualizer/visualizer";
 import { arrayCreator } from "./functions/arrayCreator";
 import "./App.css";
 
