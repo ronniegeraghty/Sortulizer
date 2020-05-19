@@ -1,0 +1,14 @@
+.bar {
+  display: inline-block;
+  position: relative;
+  text-align: none;
+}
+.number {
+  margin: auto;
+}
+.vertical {
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  margin: 0 auto;
+}

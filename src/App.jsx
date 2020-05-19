@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import NavBar from "./components/NavBar/navbar";
-import Visualizer from "./components/Visualizer/visualizer";
+import NavBar from "./components/NavBar";
+import Visualizer from "./components/Visualizer";
 import { arrayCreator } from "./functions/arrayCreator";
 import "./App.css";
 
@@ -13,14 +13,12 @@ const App = () => {
   function sortArray(sortType) {
     console.log("SORTING ARRAY");
     console.log(`SORT TYPE: ${sortType}`);
-    if (sortType === "bubble") {
-    }
   }
 
   return (
     <div className="App">
       <NavBar radArrCB={createRandomArray} sortArrCB={sortArray} />
-      <Visualizer arr={array} />
+      <Visualizer array={array} />
     </div>
   );
 };

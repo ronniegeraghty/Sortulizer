@@ -1,6 +1,4 @@
 .visualizer {
-  margin: 3rem;
-  position: relative;
-  height: 600px;
-  border: 1px solid black;
+  margin: 2rem;
+  padding: 2rem;
 }
