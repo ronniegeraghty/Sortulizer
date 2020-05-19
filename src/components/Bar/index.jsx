@@ -1,9 +1,19 @@
 import React from "react";
 import "./bar.css";
-export default function Bar({ number, width }) {
+import { useSpring, animated } from "react-spring";
+export default function Bar({ number, width, height, startPos, endPos }) {
+  const animatedProps = useSpring({
+    to: [{ left: endPos + "%" }],
+    from: { left: startPos + "%" },
+  });
   return (
-    <div className="bar" style={width}>
-      Number: {number} | BarWidth: {width.width}
-    </div>
+    <animated.div style={animatedProps}>
+      <div className="bar" style={{ width: width + "%" }}>
+        <p className="number">{number}</p>
+        <div className="vertical-bar" style={{ height: height + "%" }}>
+          {number}
+        </div>
+      </div>
+    </animated.div>
   );
 }
