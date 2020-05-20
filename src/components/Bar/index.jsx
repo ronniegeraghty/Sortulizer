@@ -1,19 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./bar.css";
-import { useSpring, animated } from "react-spring";
-export default function Bar({ number, width, height, startPos, endPos }) {
-  const animatedProps = useSpring({
-    to: [{ left: endPos + "%" }],
-    from: { left: startPos + "%" },
-  });
+
+export default function Bar({
+  number,
+  width,
+  height,
+  margin,
+  textSize,
+  sorting,
+}) {
+  const [color, setColor] = useState(
+    sorting
+      ? "linear-gradient(120deg, red, yellow)"
+      : "linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)"
+  );
+
+  useEffect(() => {
+    if (sorting) {
+      setColor("linear-gradient(120deg, red, yellow)");
+    } else {
+      setColor("linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)");
+    }
+  }, [sorting, color]);
+
   return (
-    <animated.div style={animatedProps}>
-      <div className="bar" style={{ width: width + "%" }}>
-        <p className="number">{number}</p>
-        <div className="vertical-bar" style={{ height: height + "%" }}>
+    <div className="bar" style={{ width: width + "%", margin: margin + "%" }}>
+      <div className="float-bottom" style={{ height: height + "%" }}>
+        <p className="number" style={{ fontSize: textSize + "rem" }}>
           {number}
-        </div>
+        </p>
+        <div className="vertical-bar" style={{ backgroundImage: color }}></div>
       </div>
-    </animated.div>
+    </div>
   );
 }

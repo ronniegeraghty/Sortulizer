@@ -1,21 +1,18 @@
 export const bubbleSort = (array, currentIndex) => {
-  let returnArray = array;
-  //Compare two incides
-  if (returnArray[currentIndex] > returnArray[currentIndex + 1]) {
-    console.log("CURRENTINDEX: " + returnArray[currentIndex]);
-    console.log("NEXTINDEX: " + returnArray[currentIndex + 1]);
-    let temp = returnArray[currentIndex];
-    console.log(temp);
-    returnArray[currentIndex] = returnArray[currentIndex + 1];
-    returnArray[currentIndex + 1] = temp;
+  let tempArr = [...array];
+  let changed = 0;
+  if (array[currentIndex] > array[currentIndex + 1]) {
+    tempArr[currentIndex] = array[currentIndex + 1];
+    tempArr[currentIndex + 1] = array[currentIndex];
+    changed = 1;
   }
-  console.log("RETURN ARRAY: " + returnArray);
-  currentIndex++;
-
-  // RETURN OBJECT
-  return {
-    arrary: returnArray,
-    currentIndex: currentIndex,
-    finished: true,
-  };
+  let nextIndex;
+  let reset = false;
+  if (currentIndex === array.length - 2) {
+    nextIndex = 0;
+    reset = true;
+  } else {
+    nextIndex = currentIndex + 1;
+  }
+  return [tempArr, nextIndex, changed, reset];
 };
