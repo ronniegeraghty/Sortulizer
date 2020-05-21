@@ -10,8 +10,8 @@ on:
       - release/*
 
 jobs:
-  set-up:
-    name: Set Up
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,29 +21,19 @@ jobs:
           node-version: "12.x"
       - name: Install Dependencies
         run: npm install --only=prod
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: set-up
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
       - name: Build
         run: npm run build
 
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: set-up
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+      - name: Install Dependencies
+        run: npm install --only=prod
       - name: Test
         run: npm run test
