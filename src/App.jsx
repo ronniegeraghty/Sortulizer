@@ -44,7 +44,9 @@ const App = () => {
 
   useEffect(() => {
     if (!finished) {
-      setTimeout(sortArray, 0);
+      setTimeout(() => {
+        sortArray();
+      }, 0);
     }
   }, [stepDone]);
 
