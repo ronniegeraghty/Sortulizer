@@ -1,0 +1,9 @@
+.visualizer {
+  margin: 2rem;
+  padding: 2rem;
+}
+
+.bar-row {
+  position: relative;
+  height: 30rem;
+}

@@ -1,6 +1,7 @@
 .bar {
   display: inline-block;
   position: relative;
+  text-align: none;
 }
 .number {
   margin: auto;
