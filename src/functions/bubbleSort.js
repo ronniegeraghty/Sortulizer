@@ -1,5 +1,5 @@
 export const bubbleSort = sortState => {
-  let { array, currentIndexes, changed, finished } = sortState;
+  let { array, currentIndexes, changed, status } = sortState;
   let newArray = [...array];
 
   // See if we need to make a swap and make it
@@ -25,7 +25,7 @@ export const bubbleSort = sortState => {
   // no new changes then the array is sorted and we are finished.
   if (reset) {
     if (changed === 0) {
-      finished = true;
+      status = "finished";
     } else {
       changed = 0;
     }
@@ -37,7 +37,7 @@ export const bubbleSort = sortState => {
     array: newArray,
     currentIndexes: nextIndexes,
     changed: changed,
-    finished: finished,
+    status: status,
   };
   return nextSortState;
 };
@@ -45,7 +45,7 @@ export const bubbleSort = sortState => {
 export const bubbleStartingState = {
   type: "bubble",
   currentIndexes: [0, 1],
-  finished: false,
+  status: "active",
   sort: bubbleSort,
   changed: 0,
 };
