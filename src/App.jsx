@@ -2,56 +2,80 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import { arrayCreator } from "./functions/arrayCreator";
-import { bubbleSort } from "./functions/bubbleSort";
+import { bubbleStartingState, bubbleSort } from "./functions/bubbleSort";
 import "./App.css";
 
+const INITSORTSTATE = {
+  array: [],
+  type: "",
+  status: "inactive",
+  currentIndexes: [],
+  sort: () => console.log("No Sort Function Yet!"),
+};
+const timeBetweenComparisons = 0;
+
 const App = () => {
-  const [array, setArray] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [finished, setFinished] = useState(true);
-  const [madeChange, setMadeChange] = useState(0);
-  const [stepDone, setStepDone] = useState(false);
-  //const [sortType, setSortType] = useState(undefined);
+  // const [array, setArray] = useState([]);
+  const [sortState, setSortState] = useState({ ...INITSORTSTATE });
+  /**
+   * When the radArr Call Back function that is passed to the navbar
+   * is called, run this function to set the array state to an array
+   * of size arrLen created with the arrayCreator method.
+   * @param {int} arrLen
+   */
   function createRandomArray(arrLen) {
-    setArray(arrayCreator(arrLen));
+    setSortState({
+      ...INITSORTSTATE,
+      array: arrayCreator(arrLen),
+    });
   }
-  function sortArray(sortType) {
-    setFinished(false);
-    console.log("Array Before: ", array);
-    console.log("Current Index Before: ", currentIndex);
-
-    let [newArray, nextIndex, changed, reset] = bubbleSort(array, currentIndex);
-    setArray([...newArray]);
-    setCurrentIndex(nextIndex);
-    setMadeChange(madeChange + changed);
-    //If we have reset to the beginning of the array
-    if (reset) {
-      console.log("RESTING!!!!!!!!!!!!!!!!");
-      if (madeChange > 0) {
-        // If we have made changes in this go through
-        setMadeChange(0); //reset madeChanges for next go through
-      } else {
-        // If no changes were made in that go thorugh then we are finished
-        setFinished(true);
-        console.log("FINISHED!!!");
-      }
+  /**
+   * When the sortButton Call Back button is pressed on the navbar
+   * this function will run to set the sortState according to the
+   * selected sorting algorithm, then set status to false so the
+   * sorting loop starts.
+   * @param {string} sortType
+   */
+  function sortButton(sortType) {
+    let state = {};
+    switch (sortType) {
+      case "bubble":
+        state = JSON.parse(JSON.stringify(bubbleStartingState)); // creates new object
+        state = { ...state, sort: bubbleSort };
+        break;
+      case "merge":
+        break;
+      default:
     }
-
-    console.log("Array After: ", array);
-    console.log("Current Index After: ", currentIndex);
-    setStepDone(!stepDone);
+    setSortState(prevState => ({
+      ...state,
+      array: prevState.array,
+      status: "active",
+    }));
   }
 
   useEffect(() => {
-    if (!finished) {
-      setTimeout(sortArray, 0);
+    if (sortState.status === "active") {
+      setTimeout(() => {
+        setSortState(prevState => ({
+          ...prevState.sort(prevState),
+        }));
+      }, timeBetweenComparisons);
+    } else if (sortState.status === "finished") {
+      setSortState(prevState => ({
+        ...INITSORTSTATE,
+        array: prevState.array,
+      }));
     }
-  }, [stepDone]);
+  }, [sortState]);
 
   return (
     <div className="App">
-      <NavBar radArrCB={createRandomArray} sortArrCB={sortArray} />
-      <Visualizer array={array} currentIndex={currentIndex} />
+      <NavBar radArrCB={createRandomArray} sortButtonCB={sortButton} />
+      <Visualizer
+        array={sortState.array}
+        currentIndexes={sortState.currentIndexes}
+      />
     </div>
   );
 };

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./visualizer.css";
 import Bar from "../Bar";
 
-export default function Visualizer({ array, currentIndex }) {
+export default function Visualizer({ array, currentIndexes }) {
   const [barWidth, setBarWidth] = useState(null);
 
   useEffect(() => {
     setBarWidth(90 / array.length);
-  }, [array, currentIndex]);
+  }, [array, currentIndexes]);
   return (
     <div className="visualizer">
       <div className="row">
@@ -22,7 +22,7 @@ export default function Visualizer({ array, currentIndex }) {
             height={(value * 100) / array.length}
             margin={5 / array.length}
             textSize={50 / array.length}
-            sorting={index === currentIndex || index === currentIndex + 1}
+            sorting={currentIndexes.includes(index)}
           />
         ))}
       </div>
