@@ -7,7 +7,7 @@ import "./App.css";
 
 const App = () => {
   const [array, setArray] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndexes, setcurrentIndexes] = useState(0);
   const [finished, setFinished] = useState(true);
   const [madeChange, setMadeChange] = useState(0);
   const [stepDone, setStepDone] = useState(false);
@@ -18,11 +18,14 @@ const App = () => {
   function sortArray(sortType) {
     setFinished(false);
     console.log("Array Before: ", array);
-    console.log("Current Index Before: ", currentIndex);
+    console.log("Current Index Before: ", currentIndexes);
 
-    let [newArray, nextIndex, changed, reset] = bubbleSort(array, currentIndex);
+    let [newArray, nextIndex, changed, reset] = bubbleSort(
+      array,
+      currentIndexes
+    );
     setArray([...newArray]);
-    setCurrentIndex(nextIndex);
+    setcurrentIndexes(nextIndex);
     setMadeChange(madeChange + changed);
     //If we have reset to the beginning of the array
     if (reset) {
@@ -38,7 +41,7 @@ const App = () => {
     }
 
     console.log("Array After: ", array);
-    console.log("Current Index After: ", currentIndex);
+    console.log("Current Index After: ", currentIndexes);
     setStepDone(!stepDone);
   }
 
@@ -53,7 +56,7 @@ const App = () => {
   return (
     <div className="App">
       <NavBar radArrCB={createRandomArray} sortArrCB={sortArray} />
-      <Visualizer array={array} currentIndex={currentIndex} />
+      <Visualizer array={array} currentIndexes={currentIndexes} />
     </div>
   );
 };
