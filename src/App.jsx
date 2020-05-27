@@ -76,6 +76,7 @@ const App = () => {
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
       />
+      <p className="footer">v1.1.0</p>
     </div>
   );
 };
