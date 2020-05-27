@@ -1,0 +1,24 @@
+name: Build & Deploy to Firebase
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  firebase-deploy:
+    name: Firebase Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '10.x'
+    - run: npm install 
+    - run: npm run build
+    - uses: w9jds/firebase-action@master
+      with:
+        arg: deploy --only hosting
+      env: 
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        
