@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Navbar,
   Nav,
@@ -6,6 +6,8 @@ import {
   FormControl,
   Button,
   NavDropdown,
+  Overlay,
+  Tooltip,
 } from "react-bootstrap";
 import "./navbar.css";
 
@@ -13,10 +15,17 @@ const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
   const [sortType, setSortType] = useState("bubble");
   const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: Bubble");
+  const [showTooltip, setshowTooltip] = useState(false);
+  const inputBox = useRef(null);
 
   const randomizeArray = e => {
     e.preventDefault();
-    props.radArrCB(parseInt(arrayLength, 10));
+    let arrayLengthInt = parseInt(arrayLength, 10);
+    if (isNaN(arrayLengthInt)) {
+      setshowTooltip(true);
+    } else {
+      props.radArrCB(arrayLengthInt);
+    }
   };
 
   const sortArray = () => {
@@ -38,11 +47,33 @@ const NavBar = props => {
                 placeholder="Array Length"
                 className="mr-sm-2"
                 value={arrayLength || ""}
-                onChange={e => setArrayLength(e.target.value)}
+                onChange={e => {
+                  setArrayLength(e.target.value);
+                  setshowTooltip(false);
+                }}
               />
-              <Button variant="outline-info" onClick={randomizeArray}>
+              <Button
+                ref={inputBox}
+                variant="outline-info"
+                onClick={randomizeArray}
+              >
                 Randomize Array
               </Button>
+              <Overlay
+                target={inputBox.current}
+                show={showTooltip}
+                placement={"bottom"}
+              >
+                {props => (
+                  <Tooltip
+                    id="needs-to-be-num"
+                    {...props}
+                    show={props.show.toString()}
+                  >
+                    Must be an integer!
+                  </Tooltip>
+                )}
+              </Overlay>
             </Form>
           </div>
           <div className="selectors">
