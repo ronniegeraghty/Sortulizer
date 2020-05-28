@@ -16,7 +16,15 @@ const NavBar = props => {
 
   const randomizeArray = e => {
     e.preventDefault();
-    props.radArrCB(parseInt(arrayLength, 10));
+    let arrayLengthInt = parseInt(arrayLength, 10);
+    console.log("ArrayLengthInt: ", arrayLengthInt);
+    if (isNaN(arrayLengthInt)) {
+      //Show Tooltoip saying needs to be number
+    } else {
+      props.radArrCB(arrayLengthInt);
+    }
+
+    //props.radArrCB(parseInt(arrayLength, 10));
   };
 
   const sortArray = () => {
