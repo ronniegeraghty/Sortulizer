@@ -1,0 +1,22 @@
+﻿.footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #343a40;
+  padding-top: 1rem;
+  padding-bottom: 0;
+  height: auto;
+  width: 100vw;
+}
+
+.footer-title {
+  color: #fff;
+}
+
+.description {
+  color: #fff;
+}
+
+.footerlink,
+.footerlink:hover {
+  color: #fff;
+}

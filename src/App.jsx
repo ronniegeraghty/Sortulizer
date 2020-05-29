@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
+import Footer from "./components/Footer";
 import { arrayCreator } from "./functions/arrayCreator";
 import { bubbleStartingState, bubbleSort } from "./functions/bubbleSort";
 import "./App.css";
@@ -76,7 +77,7 @@ const App = () => {
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
       />
-      <p className="footer">v1.1.0</p>
+      <Footer />
     </div>
   );
 };
