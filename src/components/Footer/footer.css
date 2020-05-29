@@ -2,7 +2,7 @@
   position: absolute;
   bottom: 0;
   background-color: #343a40;
-  padding-top: 1rem;
+  padding: 1rem;
   padding-bottom: 0;
   height: auto;
   width: 100vw;
@@ -19,4 +19,8 @@
 .footerlink,
 .footerlink:hover {
   color: #fff;
+}
+.footer-icon {
+  margin-right: 0.5em;
+  margin-bottom: 0.2em;
 }
