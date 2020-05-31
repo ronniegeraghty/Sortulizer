@@ -6,6 +6,7 @@ import { arrayCreator } from "./functions/arrayCreator";
 import { bubbleStartingState, bubbleSort } from "./functions/bubbleSort";
 import "./App.css";
 
+//Initial SortState: start with an array of size 20
 const INITSORTSTATE = {
   array: arrayCreator(20),
   status: "inactive",
