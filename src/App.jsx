@@ -35,7 +35,7 @@ const App = () => {
    * When the sortButton Call Back button is pressed on the navbar
    * this function will run to set the sortState according to the
    * selected sorting algorithm, then set status to false so the
-   * sorting loop starts. Hello
+   * sorting loop starts.
    * @param {string} sortType
    */
   function sortButton(sortType) {
