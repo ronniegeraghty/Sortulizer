@@ -15,20 +15,32 @@ const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
   const [sortType, setSortType] = useState("bubble");
   const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: Bubble");
-  const [showTooltip, setshowTooltip] = useState(false);
+  const [tooltip, setTooltip] = useState({
+    show: false,
+    content: "",
+  });
   const inputBox = useRef(null);
 
   const randomizeArray = e => {
     e.preventDefault();
     let arrayLengthInt = parseInt(arrayLength, 10);
     if (isNaN(arrayLengthInt)) {
-      setshowTooltip(true);
+      setTooltip({
+        show: true,
+        content: "Must be an Integer!",
+      });
+    } else if (props.sortStatus === "active") {
+      setTooltip({
+        show: true,
+        content: "Pause sort first!",
+      });
     } else {
       props.radArrCB(arrayLengthInt);
     }
   };
 
   const sortArray = () => {
+    setTooltip({ show: false });
     props.sortButtonCB(sortType);
   };
 
@@ -49,7 +61,10 @@ const NavBar = props => {
                 value={arrayLength || ""}
                 onChange={e => {
                   setArrayLength(e.target.value);
-                  setshowTooltip(false);
+                  setTooltip(prev => ({
+                    ...prev,
+                    show: false,
+                  }));
                 }}
               />
               <Button
@@ -61,7 +76,7 @@ const NavBar = props => {
               </Button>
               <Overlay
                 target={inputBox.current}
-                show={showTooltip}
+                show={tooltip.show}
                 placement={"bottom"}
               >
                 {props => (
@@ -70,7 +85,7 @@ const NavBar = props => {
                     {...props}
                     show={props.show.toString()}
                   >
-                    Must be an integer!
+                    {tooltip.content}
                   </Tooltip>
                 )}
               </Overlay>
@@ -98,7 +113,7 @@ const NavBar = props => {
           </div>
 
           <Button onClick={sortArray} variant="outline-info">
-            Sort Array
+            {props.sortStatus === "active" ? "Pause Sort" : "Start Sort"}
           </Button>
         </Nav>
       </Navbar>

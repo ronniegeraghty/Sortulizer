@@ -39,21 +39,39 @@ const App = () => {
    * @param {string} sortType
    */
   function sortButton(sortType) {
-    let state = {};
-    switch (sortType) {
-      case "bubble":
-        state = JSON.parse(JSON.stringify(bubbleStartingState)); // creates new object
-        state = { ...state, sort: bubbleSort };
-        break;
-      case "merge":
-        break;
-      default:
+    if (sortState.status === "active") {
+      /*If sorting is already active and the button is clicked 
+      again pause the sort where it is.*/
+      setSortState(prevState => ({
+        ...prevState,
+        status: "inactive",
+      }));
+    } else {
+      // If the sorting is inactive then start it
+      let state = {};
+      switch (sortType) {
+        case "bubble":
+          state = JSON.parse(JSON.stringify(bubbleStartingState)); // creates new object
+          state = { ...state, sort: bubbleSort };
+          break;
+        case "merge":
+          break;
+        default:
+      }
+      /*If the currentIndexes are not [] then we are paused in the 
+      middle of a sort and should keep the currentIndexes of the 
+      prevouse sortState*/
+      let newIndexes =
+        sortState.currentIndexes.length === 0
+          ? state.currentIndexes
+          : sortState.currentIndexes;
+      setSortState(prevState => ({
+        ...state,
+        array: prevState.array,
+        status: "active",
+        currentIndexes: newIndexes,
+      }));
     }
-    setSortState(prevState => ({
-      ...state,
-      array: prevState.array,
-      status: "active",
-    }));
   }
 
   useEffect(() => {
@@ -73,7 +91,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <NavBar radArrCB={createRandomArray} sortButtonCB={sortButton} />
+      <NavBar
+        radArrCB={createRandomArray}
+        sortButtonCB={sortButton}
+        sortStatus={sortState.status}
+      />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
