@@ -40,11 +40,14 @@ const App = () => {
    */
   function sortButton(sortType) {
     if (sortState.status === "active") {
+      /*If sorting is already active and the button is clicked 
+      again pause the sort where it is.*/
       setSortState(prevState => ({
         ...prevState,
         status: "inactive",
       }));
     } else {
+      // If the sorting is inactive then start it
       let state = {};
       switch (sortType) {
         case "bubble":
@@ -55,10 +58,18 @@ const App = () => {
           break;
         default:
       }
+      /*If the currentIndexes are not [] then we are paused in the 
+      middle of a sort and should keep the currentIndexes of the 
+      prevouse sortState*/
+      let newIndexes =
+        sortState.currentIndexes.length === 0
+          ? state.currentIndexes
+          : sortState.currentIndexes;
       setSortState(prevState => ({
         ...state,
         array: prevState.array,
         status: "active",
+        currentIndexes: newIndexes,
       }));
     }
   }
