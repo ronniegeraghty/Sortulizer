@@ -6,18 +6,19 @@ import { arrayCreator } from "./functions/arrayCreator";
 import { bubbleStartingState, bubbleSort } from "./functions/bubbleSort";
 import "./App.css";
 
+//Initial SortState: start with an array of size 20
 const INITSORTSTATE = {
-  array: [],
-  type: "",
+  array: arrayCreator(20),
   status: "inactive",
   currentIndexes: [],
-  sort: () => console.log("No Sort Function Yet!"),
 };
 const timeBetweenComparisons = 0;
 
 const App = () => {
-  // const [array, setArray] = useState([]);
-  const [sortState, setSortState] = useState({ ...INITSORTSTATE });
+  const [sortState, setSortState] = useState({
+    ...bubbleStartingState,
+    ...INITSORTSTATE,
+  });
   /**
    * When the radArr Call Back function that is passed to the navbar
    * is called, run this function to set the array state to an array
