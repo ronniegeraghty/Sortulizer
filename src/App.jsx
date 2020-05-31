@@ -39,21 +39,28 @@ const App = () => {
    * @param {string} sortType
    */
   function sortButton(sortType) {
-    let state = {};
-    switch (sortType) {
-      case "bubble":
-        state = JSON.parse(JSON.stringify(bubbleStartingState)); // creates new object
-        state = { ...state, sort: bubbleSort };
-        break;
-      case "merge":
-        break;
-      default:
+    if (sortState.status === "active") {
+      setSortState(prevState => ({
+        ...prevState,
+        status: "inactive",
+      }));
+    } else {
+      let state = {};
+      switch (sortType) {
+        case "bubble":
+          state = JSON.parse(JSON.stringify(bubbleStartingState)); // creates new object
+          state = { ...state, sort: bubbleSort };
+          break;
+        case "merge":
+          break;
+        default:
+      }
+      setSortState(prevState => ({
+        ...state,
+        array: prevState.array,
+        status: "active",
+      }));
     }
-    setSortState(prevState => ({
-      ...state,
-      array: prevState.array,
-      status: "active",
-    }));
   }
 
   useEffect(() => {
@@ -73,7 +80,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <NavBar radArrCB={createRandomArray} sortButtonCB={sortButton} />
+      <NavBar
+        radArrCB={createRandomArray}
+        sortButtonCB={sortButton}
+        sortStatus={sortState.status}
+      />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}

@@ -98,7 +98,7 @@ const NavBar = props => {
           </div>
 
           <Button onClick={sortArray} variant="outline-info">
-            Sort Array
+            {props.sortStatus === "active" ? "Pause Sort" : "Start Sort"}
           </Button>
         </Nav>
       </Navbar>
