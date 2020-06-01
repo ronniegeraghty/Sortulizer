@@ -13,6 +13,7 @@ import "./navbar.css";
 
 const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
+  const [savedArrayLength, setSavedArrayLength] = useState(20);
   const [sortType, setSortType] = useState("bubble");
   const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: Bubble");
   const [tooltip, setTooltip] = useState({
@@ -24,7 +25,9 @@ const NavBar = props => {
   const randomizeArray = e => {
     e.preventDefault();
     let arrayLengthInt = parseInt(arrayLength, 10);
-    if (isNaN(arrayLengthInt)) {
+    if (arrayLength === undefined || arrayLength === "") {
+      props.radArrCB(savedArrayLength);
+    } else if (isNaN(arrayLengthInt)) {
       setTooltip({
         show: true,
         content: "Must be an Integer!",
@@ -36,6 +39,7 @@ const NavBar = props => {
       });
     } else {
       props.radArrCB(arrayLengthInt);
+      setSavedArrayLength(arrayLengthInt);
     }
   };
 
