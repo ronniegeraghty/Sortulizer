@@ -75,18 +75,23 @@ const App = () => {
   }
 
   useEffect(() => {
-    if (sortState.status === "active") {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (sortState.status === "active") {
+        setTimeout(() => {
+          setSortState(prevState => ({
+            ...prevState,
+            ...prevState.sort(prevState),
+          }));
+        }, timeBetweenComparisons);
+      } else if (sortState.status === "finished") {
         setSortState(prevState => ({
-          ...prevState.sort(prevState),
+          ...INITSORTSTATE,
+          array: prevState.array,
+          traversals: prevState.traversals,
+          comparisons: prevState.comparisons,
         }));
-      }, timeBetweenComparisons);
-    } else if (sortState.status === "finished") {
-      setSortState(prevState => ({
-        ...INITSORTSTATE,
-        array: prevState.array,
-      }));
-    }
+      }
+    }, 0);
   }, [sortState]);
 
   return (
@@ -99,6 +104,8 @@ const App = () => {
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
+        traversals={sortState.traversals}
+        comparisons={sortState.comparisons}
       />
       <Footer />
     </div>
