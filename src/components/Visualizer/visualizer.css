@@ -1,6 +1,11 @@
 .visualizer {
   margin: 2rem;
   padding: 2rem;
+  padding-top: 0;
+}
+
+.info-data {
+  margin-bottom: auto;
 }
 
 .bar-row {
