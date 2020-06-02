@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./visualizer.css";
 import Bar from "../Bar";
 
-export default function Visualizer({ array, currentIndexes }) {
+export default function Visualizer({ array, currentIndexes, traversals }) {
   const [barWidth, setBarWidth] = useState(null);
 
   useEffect(() => {
@@ -12,6 +12,9 @@ export default function Visualizer({ array, currentIndexes }) {
     <div className="visualizer">
       <div className="row">
         <h1>Visualizer</h1>
+      </div>
+      <div className="row">
+        <p>Array Traversals: {traversals}</p>
       </div>
       <div className="bar-row row">
         {array.map((value, index) => (
