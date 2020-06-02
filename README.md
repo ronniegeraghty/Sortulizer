@@ -1,7 +1,8 @@
 # Sortulizer
-Master: ![Master Build & Test](https://github.com/ronniegeraghty/Sortulizer/workflows/Build%20&%20Test/badge.svg)
 
-Release/1: ![Release/1 Build & Test](https://github.com/ronniegeraghty/Sortulizer/workflows/Build%20&%20Test/badge.svg?branch=release%2F1)
+**Master:** ![Master Build & Test](https://github.com/ronniegeraghty/Sortulizer/workflows/Build%20&%20Test/badge.svg) **Release/1:** ![Release/1 Build & Test](https://github.com/ronniegeraghty/Sortulizer/workflows/Build%20&%20Test/badge.svg?branch=release%2F1) 
+![Firebase Deploy](https://github.com/ronniegeraghty/Sortulizer/workflows/Firebase%20Deploy/badge.svg?branch=master)
+[![Run on Repl.it](https://repl.it/badge/github/ronniegeraghty/Sortulizer)](https://repl.it/github/ronniegeraghty/Sortulizer)
 
 A sorting algorithm visualizer, to show you how different sorting algorithms work through an array.
 

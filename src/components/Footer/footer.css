@@ -1,0 +1,21 @@
+﻿.footer {
+  position: absolute;
+  bottom: 0;
+  /* background-color: #343a40; */
+  padding: 1rem;
+  padding-bottom: 0;
+  height: auto;
+  width: 100vw;
+  color: rgb(223, 223, 223);
+}
+
+.footerlink {
+  color: rgb(223, 223, 223);
+}
+.footerlink:hover {
+  color: rgb(194, 194, 194);
+}
+.footer-icon {
+  margin-right: 0.5em;
+  margin-bottom: 0.2em;
+}

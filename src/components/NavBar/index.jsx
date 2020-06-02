@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Navbar,
   Nav,
@@ -6,20 +6,45 @@ import {
   FormControl,
   Button,
   NavDropdown,
+  Overlay,
+  Tooltip,
 } from "react-bootstrap";
 import "./navbar.css";
 
 const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
+  const [savedArrayLength, setSavedArrayLength] = useState(20);
   const [sortType, setSortType] = useState("bubble");
   const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: Bubble");
+  const [tooltip, setTooltip] = useState({
+    show: false,
+    content: "",
+  });
+  const inputBox = useRef(null);
 
   const randomizeArray = e => {
     e.preventDefault();
-    props.radArrCB(parseInt(arrayLength, 10));
+    let arrayLengthInt = parseInt(arrayLength, 10);
+    if (arrayLength === undefined || arrayLength === "") {
+      props.radArrCB(savedArrayLength);
+    } else if (isNaN(arrayLengthInt)) {
+      setTooltip({
+        show: true,
+        content: "Must be an Integer!",
+      });
+    } else if (props.sortStatus === "active") {
+      setTooltip({
+        show: true,
+        content: "Pause sort first!",
+      });
+    } else {
+      props.radArrCB(arrayLengthInt);
+      setSavedArrayLength(arrayLengthInt);
+    }
   };
 
   const sortArray = () => {
+    setTooltip({ show: false });
     props.sortButtonCB(sortType);
   };
 
@@ -38,11 +63,36 @@ const NavBar = props => {
                 placeholder="Array Length"
                 className="mr-sm-2"
                 value={arrayLength || ""}
-                onChange={e => setArrayLength(e.target.value)}
+                onChange={e => {
+                  setArrayLength(e.target.value);
+                  setTooltip(prev => ({
+                    ...prev,
+                    show: false,
+                  }));
+                }}
               />
-              <Button variant="outline-info" onClick={randomizeArray}>
+              <Button
+                ref={inputBox}
+                variant="outline-info"
+                onClick={randomizeArray}
+              >
                 Randomize Array
               </Button>
+              <Overlay
+                target={inputBox.current}
+                show={tooltip.show}
+                placement={"bottom"}
+              >
+                {props => (
+                  <Tooltip
+                    id="needs-to-be-num"
+                    {...props}
+                    show={props.show.toString()}
+                  >
+                    {tooltip.content}
+                  </Tooltip>
+                )}
+              </Overlay>
             </Form>
           </div>
           <div className="selectors">
@@ -67,7 +117,7 @@ const NavBar = props => {
           </div>
 
           <Button onClick={sortArray} variant="outline-info">
-            Sort Array
+            {props.sortStatus === "active" ? "Pause Sort" : "Start Sort"}
           </Button>
         </Nav>
       </Navbar>
