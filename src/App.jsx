@@ -88,6 +88,7 @@ const App = () => {
           ...INITSORTSTATE,
           array: prevState.array,
           traversals: prevState.traversals,
+          comparisons: prevState.comparisons,
         }));
       }
     }, 0);
@@ -104,6 +105,7 @@ const App = () => {
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
         traversals={sortState.traversals}
+        comparisons={sortState.comparisons}
       />
       <Footer />
     </div>
