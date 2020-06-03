@@ -90,7 +90,7 @@ const App = () => {
           comparisons: prevState.comparisons,
         }));
       }
-    }, 100);
+    }, 0);
   }, [sortState]);
 
   return (
