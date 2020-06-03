@@ -44,7 +44,14 @@ const App = () => {
       again pause the sort where it is.*/
       setSortState(prevState => ({
         ...prevState,
-        status: "inactive",
+        status: "paused",
+      }));
+    } else if (sortState.status === "paused") {
+      /*If sort status is pased and the button is click to restart
+       it keep the prev sort stat but change status back to active.*/
+      setSortState(prevState => ({
+        ...prevState,
+        status: "active",
       }));
     } else {
       // If the sorting is inactive then start it
@@ -58,18 +65,10 @@ const App = () => {
           break;
         default:
       }
-      /*If the currentIndexes are not [] then we are paused in the 
-      middle of a sort and should keep the currentIndexes of the 
-      prevouse sortState*/
-      let newIndexes =
-        sortState.currentIndexes.length === 0
-          ? state.currentIndexes
-          : sortState.currentIndexes;
       setSortState(prevState => ({
         ...state,
         array: prevState.array,
         status: "active",
-        currentIndexes: newIndexes,
       }));
     }
   }
@@ -91,7 +90,7 @@ const App = () => {
           comparisons: prevState.comparisons,
         }));
       }
-    }, 0);
+    }, 100);
   }, [sortState]);
 
   return (
