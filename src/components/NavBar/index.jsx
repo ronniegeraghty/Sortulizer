@@ -25,21 +25,26 @@ const NavBar = props => {
   const randomizeArray = e => {
     e.preventDefault();
     let arrayLengthInt = parseInt(arrayLength, 10);
-    if (arrayLength === undefined || arrayLength === "") {
-      props.radArrCB(savedArrayLength);
-    } else if (isNaN(arrayLengthInt)) {
-      setTooltip({
-        show: true,
-        content: "Must be an Integer!",
-      });
-    } else if (props.sortStatus === "active") {
+    if (props.sortStatus === "active") {
       setTooltip({
         show: true,
         content: "Pause sort first!",
       });
     } else {
-      props.radArrCB(arrayLengthInt);
-      setSavedArrayLength(arrayLengthInt);
+      // If sort status is inactive
+      if (arrayLength === undefined || arrayLength === "") {
+        //If input empty use last array length used.
+        //Need to test if undefined or "" before isNaN because underfined will also cause isNaN to be true
+        props.radArrCB(savedArrayLength);
+      } else if (isNaN(arrayLength)) {
+        setTooltip({
+          show: true,
+          content: "Must be an Integer!",
+        });
+      } else {
+        props.radArrCB(arrayLengthInt);
+        setSavedArrayLength(arrayLengthInt);
+      }
     }
   };
 
