@@ -47,12 +47,15 @@ const App = () => {
         ...prevState,
         status: "paused",
       }));
-    } else if (
-      sortState.status === "paused" ||
-      sortState.status === "inactive"
-    ) {
+    } else if (sortState.status === "paused") {
       setSortState(prevState => ({
         ...prevState,
+        status: "active",
+      }));
+    } else if (sortState.status === "inactive") {
+      setSortState(prevState => ({
+        ...prevState,
+        ...switchSortType(prevState.type),
         status: "active",
       }));
     }
