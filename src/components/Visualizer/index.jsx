@@ -8,6 +8,7 @@ export default function Visualizer({
   currentIndexes,
   traversals,
   comparisons,
+  sortSpeedCB,
 }) {
   const [barWidth, setBarWidth] = useState(null);
   const [sortSpeed, setSortSpeed] = useState(100);
@@ -31,11 +32,12 @@ export default function Visualizer({
         <CustomSlider
           className="sort-speed-data"
           valueLabelDisplay="auto"
-          min={0}
+          min={1}
           max={100}
           value={sortSpeed}
           onChange={(e, value) => {
             setSortSpeed(value);
+            sortSpeedCB(value);
           }}
         />
       </div>

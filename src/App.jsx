@@ -5,15 +5,15 @@ import Footer from "./components/Footer";
 import arrayCreator from "./sort-functions/arrayCreator";
 import switchSortType from "./sort-functions/switchSortType";
 import checkSort from "./sort-functions/checkSort";
+import calcTimeInterval from "./sort-functions/calcTimeInterval";
 import "./App.css";
-
-const timeBetweenComparisons = 0;
 
 const App = () => {
   const [sortState, setSortState] = useState({
     ...switchSortType("bubble"),
     array: arrayCreator(20),
   });
+  const [sortSpeed, setSortSpeed] = useState(100);
 
   /**
    * Create a randomly shuffeled array and put it in the sortState
@@ -82,7 +82,7 @@ const App = () => {
           comparisons: prevState.comparisons,
         }));
       }
-    }, timeBetweenComparisons);
+    }, calcTimeInterval(sortSpeed));
   }, [sortState]);
 
   return (
@@ -98,6 +98,7 @@ const App = () => {
         currentIndexes={sortState.currentIndexes}
         traversals={sortState.traversals}
         comparisons={sortState.comparisons}
+        sortSpeedCB={speed => setSortSpeed(speed)}
       />
       <Footer />
     </div>
