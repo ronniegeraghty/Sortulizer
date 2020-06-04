@@ -13,7 +13,7 @@ const INITSORTSTATE = {
   status: "inactive",
   currentIndexes: [],
 };
-const timeBetweenComparisons = 500;
+const timeBetweenComparisons = 0;
 
 const App = () => {
   const [sortState, setSortState] = useState({

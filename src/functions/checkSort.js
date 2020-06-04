@@ -1,13 +1,10 @@
-import { arrayCreator } from "./arrayCreator";
-
 export default sortState => {
-  console.log(JSON.stringify(sortState));
   let { array, currentIndexes, status } = sortState;
   //compare elements
   if (array[currentIndexes[0]] < array[currentIndexes[1]]) {
-    console.log("GOOD SORT");
+    //console.log("GOOD SORT");
   } else {
-    console.log("BAD SORT");
+    //console.log("BAD SORT");
   }
 
   let nextIndexes = currentIndexes;
