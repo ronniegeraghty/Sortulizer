@@ -1,4 +1,4 @@
-export const bubbleSort = sortState => {
+const bubbleSort = sortState => {
   let {
     array,
     currentIndexes,
@@ -8,7 +8,9 @@ export const bubbleSort = sortState => {
     comparisons,
   } = sortState;
   let newArray = [...array];
-
+  if (currentIndexes.length === 0) {
+    currentIndexes = [0, 1];
+  }
   // See if we need to make a swap and make it
   if (array[currentIndexes[0]] > array[currentIndexes[1]]) {
     newArray[currentIndexes[0]] = array[currentIndexes[1]];
@@ -19,8 +21,11 @@ export const bubbleSort = sortState => {
   let nextIndexes = currentIndexes;
   let reset = false;
 
-  if (currentIndexes[0] === array.length - 2) {
+  if (currentIndexes[0] === array.length - 2 - traversals) {
     //If we are at the end of the array set indexs back to beginning
+    /* Also minus traversal because after one traversal the largest 
+    should be at the end of the array already and there is not need to 
+    traverse over it*/
     nextIndexes = [0, 1];
     reset = true;
   } else {
@@ -55,8 +60,6 @@ export const bubbleSort = sortState => {
 
 export const bubbleStartingState = {
   type: "bubble",
-  currentIndexes: [0, 1],
-  status: "active",
   sort: bubbleSort,
   changed: 0,
   traversals: 0,
