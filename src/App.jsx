@@ -7,7 +7,7 @@ import switchSortType from "./sort-functions/switchSortType";
 import checkSort from "./sort-functions/checkSort";
 import "./App.css";
 
-const timeBetweenComparisons = 300;
+const timeBetweenComparisons = 0;
 
 const App = () => {
   const [sortState, setSortState] = useState({
