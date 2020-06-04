@@ -19,8 +19,11 @@ export const bubbleSort = sortState => {
   let nextIndexes = currentIndexes;
   let reset = false;
 
-  if (currentIndexes[0] === array.length - 2) {
+  if (currentIndexes[0] === array.length - 2 - traversals) {
     //If we are at the end of the array set indexs back to beginning
+    /* Also minus traversal because after one traversal the largest 
+    should be at the end of the array already and there is not need to 
+    traverse over it*/
     nextIndexes = [0, 1];
     reset = true;
   } else {
