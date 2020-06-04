@@ -14,7 +14,7 @@ function calcLabelLeft(x) {
 
 const styles = {
   root: {
-    color: "#52af77",
+    color: "linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)",
     height: 2 * sizer,
     width: "30vw",
   },
@@ -22,7 +22,7 @@ const styles = {
     height: 6 * sizer,
     width: 6 * sizer,
     backgroundColor: "#fff",
-    border: "2px solid currentColor",
+    border: "2px solid #89E6D3",
     marginTop: -2 * sizer,
     marginLeft: -3 * sizer,
     "&:focus, &:hover, &$active": {
@@ -32,14 +32,17 @@ const styles = {
   active: {},
   valueLabel: {
     left: calcLabelLeft(sizer) + "%",
+    color: "#89E6D3",
   },
   track: {
     height: 2 * sizer,
     borderRadius: sizer,
+    backgroundImage: "linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)",
   },
   rail: {
     height: 2 * sizer,
     borderRadius: sizer,
+    backgroundImage: "linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)",
   },
 };
 
