@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import Footer from "./components/Footer";
 import { arrayCreator } from "./functions/arrayCreator";
+import checkSort from "./functions/checkSort";
 import { bubbleStartingState, bubbleSort } from "./functions/bubbleSort";
 import "./App.css";
 
@@ -83,6 +84,13 @@ const App = () => {
           }));
         }, timeBetweenComparisons);
       } else if (sortState.status === "finished") {
+        setTimeout(() => {
+          setSortState(prevState => ({
+            ...prevState,
+            ...checkSort(prevState),
+          }));
+        }, timeBetweenComparisons);
+      } else if (sortState.status === "checked") {
         setSortState(prevState => ({
           ...INITSORTSTATE,
           array: prevState.array,
