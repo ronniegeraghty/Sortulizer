@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./visualizer.css";
+import CustomSlider from "./CustomSlider";
 import Bar from "../Bar";
 
 export default function Visualizer({
@@ -9,6 +10,7 @@ export default function Visualizer({
   comparisons,
 }) {
   const [barWidth, setBarWidth] = useState(null);
+  const [sortSpeed, setSortSpeed] = useState(100);
 
   useEffect(() => {
     setBarWidth(90 / array.length);
@@ -24,6 +26,20 @@ export default function Visualizer({
       <div className="row">
         <p className="info-data">Comparisons: {comparisons}</p>
       </div>
+      <div className="row">
+        <p className="info-data sort-speed-data">Sort Speed: </p>
+        <CustomSlider
+          className="sort-speed-data"
+          valueLabelDisplay="auto"
+          min={0}
+          max={100}
+          value={sortSpeed}
+          onChange={(e, value) => {
+            setSortSpeed(value);
+          }}
+        />
+      </div>
+
       <div className="bar-row row">
         {array.map((value, index) => (
           <Bar

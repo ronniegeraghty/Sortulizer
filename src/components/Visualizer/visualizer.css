@@ -8,6 +8,11 @@
   margin-bottom: auto;
 }
 
+.sort-speed-data {
+  display: inline;
+  margin-right: 1rem;
+}
+
 .bar-row {
   position: relative;
   height: 30rem;
