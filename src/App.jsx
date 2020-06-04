@@ -2,109 +2,91 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import Footer from "./components/Footer";
-import { arrayCreator } from "./functions/arrayCreator";
-import checkSort from "./functions/checkSort";
-import { bubbleStartingState, bubbleSort } from "./functions/bubbleSort";
+import arrayCreator from "./sort-functions/arrayCreator";
+import switchSortType from "./sort-functions/switchSortType";
+import checkSort from "./sort-functions/checkSort";
 import "./App.css";
 
-//Initial SortState: start with an array of size 20
-const INITSORTSTATE = {
-  array: arrayCreator(20),
-  status: "inactive",
-  currentIndexes: [],
-};
-const timeBetweenComparisons = 0;
+const timeBetweenComparisons = 300;
 
 const App = () => {
   const [sortState, setSortState] = useState({
-    ...bubbleStartingState,
-    ...INITSORTSTATE,
+    ...switchSortType("bubble"),
+    array: arrayCreator(20),
   });
+
   /**
-   * When the radArr Call Back function that is passed to the navbar
-   * is called, run this function to set the array state to an array
-   * of size arrLen created with the arrayCreator method.
+   * Create a randomly shuffeled array and put it in the sortState
    * @param {int} arrLen
    */
   function createRandomArray(arrLen) {
-    setSortState({
-      ...INITSORTSTATE,
+    setSortState(prevState => ({
+      ...switchSortType(prevState.type),
       array: arrayCreator(arrLen),
-    });
+    }));
   }
+
   /**
-   * When the sortButton Call Back button is pressed on the navbar
-   * this function will run to set the sortState according to the
-   * selected sorting algorithm, then set status to false so the
-   * sorting loop starts.
+   * Changes the sort type in the sortState
    * @param {string} sortType
    */
-  function sortButton(sortType) {
+  function setSortType(sortType) {
+    setSortState(prevState => ({
+      ...prevState,
+      ...switchSortType(sortType),
+    }));
+  }
+
+  /**
+   * Change the sortState.status based on current status when sort button is pressed.
+   * @param {string} sortType
+   */
+  function sortButton() {
     if (sortState.status === "active") {
-      /*If sorting is already active and the button is clicked 
-      again pause the sort where it is.*/
       setSortState(prevState => ({
         ...prevState,
         status: "paused",
       }));
-    } else if (sortState.status === "paused") {
-      /*If sort status is pased and the button is click to restart
-       it keep the prev sort stat but change status back to active.*/
+    } else if (
+      sortState.status === "paused" ||
+      sortState.status === "inactive"
+    ) {
       setSortState(prevState => ({
         ...prevState,
-        status: "active",
-      }));
-    } else {
-      // If the sorting is inactive then start it
-      let state = {};
-      switch (sortType) {
-        case "bubble":
-          state = JSON.parse(JSON.stringify(bubbleStartingState)); // creates new object
-          state = { ...state, sort: bubbleSort };
-          break;
-        case "merge":
-          break;
-        default:
-      }
-      setSortState(prevState => ({
-        ...state,
-        array: prevState.array,
         status: "active",
       }));
     }
   }
 
+  // Acts as the sort loop based on sortState.statuse
   useEffect(() => {
     setTimeout(() => {
       if (sortState.status === "active") {
-        setTimeout(() => {
-          setSortState(prevState => ({
-            ...prevState,
-            ...prevState.sort(prevState),
-          }));
-        }, timeBetweenComparisons);
+        setSortState(prevState => ({
+          ...prevState,
+          ...prevState.sort(prevState),
+        }));
       } else if (sortState.status === "finished") {
-        setTimeout(() => {
-          setSortState(prevState => ({
-            ...prevState,
-            ...checkSort(prevState),
-          }));
-        }, timeBetweenComparisons);
+        setSortState(prevState => ({
+          ...prevState,
+          ...checkSort(prevState),
+        }));
       } else if (sortState.status === "checked") {
         setSortState(prevState => ({
-          ...INITSORTSTATE,
+          ...switchSortType(prevState.type),
           array: prevState.array,
           traversals: prevState.traversals,
           comparisons: prevState.comparisons,
         }));
       }
-    }, 0);
+    }, timeBetweenComparisons);
   }, [sortState]);
 
   return (
     <div className="App">
       <NavBar
         radArrCB={createRandomArray}
+        sortTypeCB={setSortType}
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />

@@ -106,6 +106,7 @@ const NavBar = props => {
                 onClick={e => {
                   setSortType("bubble");
                   setAlgorithmTitle("Algorithm: Bubble");
+                  props.sortTypeCB("bubble");
                 }}
               >
                 Bubble Sort
@@ -114,6 +115,7 @@ const NavBar = props => {
                 onClick={e => {
                   setSortType("merge");
                   setAlgorithmTitle("Algorithm: Merge");
+                  props.sortTypeCB("merge");
                 }}
               >
                 Merge Sort

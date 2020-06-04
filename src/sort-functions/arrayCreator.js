@@ -24,7 +24,7 @@ function shuffle(array) {
  * @returns {int[]} an array with every int between 0 and arrayLength - 1,
  * at random indexes
  */
-export const arrayCreator = arrayLength => {
+export default arrayLength => {
   return shuffle([...Array(arrayLength).keys()]); //returns random order
   // return [...Array(arrayLength).keys()];       //returns in order
 };
