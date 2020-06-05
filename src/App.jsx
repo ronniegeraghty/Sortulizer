@@ -5,15 +5,16 @@ import Footer from "./components/Footer";
 import arrayCreator from "./sort-functions/arrayCreator";
 import switchSortType from "./sort-functions/switchSortType";
 import checkSort from "./sort-functions/checkSort";
+import calcTimeInterval from "./sort-functions/calcTimeInterval";
 import "./App.css";
-
-const timeBetweenComparisons = 0;
 
 const App = () => {
   const [sortState, setSortState] = useState({
     ...switchSortType("bubble"),
     array: arrayCreator(20),
   });
+  // let sortSpeed = 100;
+  const [sortSpeed, setSortSpeed] = useState(100);
 
   /**
    * Create a randomly shuffeled array and put it in the sortState
@@ -35,6 +36,14 @@ const App = () => {
       ...prevState,
       ...switchSortType(sortType),
     }));
+  }
+
+  /**
+   * Changes the sort speed
+   * @param {int} sortSpeed
+   */
+  function setSpeed(speed) {
+    setSortSpeed(speed);
   }
 
   /**
@@ -63,7 +72,7 @@ const App = () => {
 
   // Acts as the sort loop based on sortState.statuse
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       if (sortState.status === "active") {
         setSortState(prevState => ({
           ...prevState,
@@ -82,8 +91,9 @@ const App = () => {
           comparisons: prevState.comparisons,
         }));
       }
-    }, timeBetweenComparisons);
-  }, [sortState]);
+    }, calcTimeInterval(sortSpeed));
+    return () => clearTimeout(timeout);
+  }, [sortState, sortSpeed]);
 
   return (
     <div className="App">
@@ -98,6 +108,7 @@ const App = () => {
         currentIndexes={sortState.currentIndexes}
         traversals={sortState.traversals}
         comparisons={sortState.comparisons}
+        sortSpeedCB={setSpeed}
       />
       <Footer />
     </div>
