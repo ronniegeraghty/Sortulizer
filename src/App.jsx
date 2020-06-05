@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import Footer from "./components/Footer";
+import Sound from "./components/Sound";
 import arrayCreator from "./sort-functions/arrayCreator";
 import switchSortType from "./sort-functions/switchSortType";
 import checkSort from "./sort-functions/checkSort";
@@ -103,6 +104,7 @@ const App = () => {
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />
+      <Sound time={1000} />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
