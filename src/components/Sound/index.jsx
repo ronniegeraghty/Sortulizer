@@ -7,30 +7,27 @@ function Sound({ time, soundFreqs }) {
     let sound = new Pizzicato.Sound({
       source: "wave",
       options: {
+        type: "square",
         frequency: soundFreq,
       },
     });
     soundGroup.addSound(sound);
   });
-  function playSound() {
-    soundGroup.play();
-    setTimeout(() => {
-      soundGroup.stop();
-    }, time);
-  }
+  //   function playSound() {
+  //     soundGroup.play();
+  //     setTimeout(() => {
+  //       soundGroup.stop();
+  //     }, time);
+  //   }
+
   useEffect(() => {
     soundGroup.play();
-    const timeout = setTimeout(() => {
+    return () => {
       soundGroup.stop();
-    }, time);
-    return () => clearTimeout(timeout);
-  }, [soundGroup, time]);
+    };
+  }, [soundGroup]);
 
-  return (
-    <div>
-      <button onClick={playSound}>Play</button>
-    </div>
-  );
+  return <div>{/* <button onClick={playSound}>Play</button> */}</div>;
 }
 
 export default Sound;

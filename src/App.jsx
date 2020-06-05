@@ -96,6 +96,7 @@ const App = () => {
     }, calcTimeInterval(sortSpeed));
     return () => clearTimeout(timeout);
   }, [sortState, sortSpeed]);
+
   return (
     <div className="App">
       <NavBar
@@ -104,7 +105,10 @@ const App = () => {
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />
-      <Sound time={1000} soundFreqs={getFrequencies(sortState)} />
+      <Sound
+        time={calcTimeInterval(sortSpeed)}
+        soundFreqs={getFrequencies(sortState)}
+      />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
