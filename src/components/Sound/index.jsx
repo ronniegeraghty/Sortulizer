@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Pizzicato from "pizzicato";
 
-function Sound({ time, soundFreqs }) {
+function Sound({ status, soundFreqs }) {
   let soundGroup = new Pizzicato.Group([]);
   soundFreqs.forEach(soundFreq => {
     let sound = new Pizzicato.Sound({
@@ -21,11 +21,13 @@ function Sound({ time, soundFreqs }) {
   //   }
 
   useEffect(() => {
-    soundGroup.play();
+    if (status === "active" || status === "finished") {
+      soundGroup.play();
+    }
     return () => {
       soundGroup.stop();
     };
-  }, [soundGroup]);
+  }, [soundGroup, status]);
 
   return <div>{/* <button onClick={playSound}>Play</button> */}</div>;
 }

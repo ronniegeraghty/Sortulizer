@@ -105,10 +105,7 @@ const App = () => {
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />
-      <Sound
-        time={calcTimeInterval(sortSpeed)}
-        soundFreqs={getFrequencies(sortState)}
-      />
+      <Sound status={sortState.status} soundFreqs={getFrequencies(sortState)} />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
