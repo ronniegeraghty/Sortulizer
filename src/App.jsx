@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
+import WindowFocusHandler from "./components/WindowFocusHandler";
 import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import Footer from "./components/Footer";
-import arrayCreator from "./sort-functions/arrayCreator";
-import switchSortType from "./sort-functions/switchSortType";
-import checkSort from "./sort-functions/checkSort";
+import Sound from "./components/Sound";
+import arrayCreator from "./functions/arrayCreator";
+import switchSortType from "./functions/switchSortType";
+import checkSort from "./functions/checkSort";
+import calcTimeInterval from "./functions/calcTimeInterval";
+import { getScaledFrequencies } from "./functions/getFrequencies";
 import "./App.css";
-
-const timeBetweenComparisons = 0;
 
 const App = () => {
   const [sortState, setSortState] = useState({
     ...switchSortType("bubble"),
     array: arrayCreator(20),
   });
+  // let sortSpeed = 100;
+  const [sortSpeed, setSortSpeed] = useState(100);
 
   /**
    * Create a randomly shuffeled array and put it in the sortState
@@ -35,6 +39,36 @@ const App = () => {
       ...prevState,
       ...switchSortType(sortType),
     }));
+  }
+
+  /**
+   * Changes the sort speed
+   * @param {int} sortSpeed
+   */
+  function setSpeed(speed) {
+    setSortSpeed(speed);
+  }
+
+  function setFocus(focus) {
+    if (focus) {
+      if (sortState.prevStatus === undefined) {
+        setSortState(prevState => ({
+          ...prevState,
+          status: "inactive",
+        }));
+      } else {
+        setSortState(prevState => ({
+          ...prevState,
+          status: prevState.prevStatus,
+        }));
+      }
+    } else {
+      setSortState(prevState => ({
+        ...prevState,
+        status: "unfocused",
+        prevStatus: prevState.status,
+      }));
+    }
   }
 
   /**
@@ -63,7 +97,7 @@ const App = () => {
 
   // Acts as the sort loop based on sortState.statuse
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       if (sortState.status === "active") {
         setSortState(prevState => ({
           ...prevState,
@@ -82,22 +116,29 @@ const App = () => {
           comparisons: prevState.comparisons,
         }));
       }
-    }, timeBetweenComparisons);
-  }, [sortState]);
+    }, calcTimeInterval(sortSpeed));
+    return () => clearTimeout(timeout);
+  }, [sortState, sortSpeed]);
 
   return (
     <div className="App">
+      <WindowFocusHandler setFocusCB={setFocus} />
       <NavBar
         radArrCB={createRandomArray}
         sortTypeCB={setSortType}
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />
+      <Sound
+        status={sortState.status}
+        soundFreqs={getScaledFrequencies(sortState)}
+      />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}
         traversals={sortState.traversals}
         comparisons={sortState.comparisons}
+        sortSpeedCB={setSpeed}
       />
       <Footer />
     </div>
