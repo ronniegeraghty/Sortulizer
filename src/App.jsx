@@ -7,7 +7,7 @@ import arrayCreator from "./functions/arrayCreator";
 import switchSortType from "./functions/switchSortType";
 import checkSort from "./functions/checkSort";
 import calcTimeInterval from "./functions/calcTimeInterval";
-import getFrequencies from "./functions/getFrequencies";
+import { getScaledFrequencies } from "./functions/getFrequencies";
 import "./App.css";
 
 const App = () => {
@@ -105,7 +105,10 @@ const App = () => {
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />
-      <Sound status={sortState.status} soundFreqs={getFrequencies(sortState)} />
+      <Sound
+        status={sortState.status}
+        soundFreqs={getScaledFrequencies(sortState)}
+      />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}

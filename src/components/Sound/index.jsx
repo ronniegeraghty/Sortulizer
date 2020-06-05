@@ -17,7 +17,7 @@ function Sound({ status, soundFreqs }) {
   //     soundGroup.play();
   //     setTimeout(() => {
   //       soundGroup.stop();
-  //     }, time);
+  //     }, 1000);
   //   }
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function Sound({ status, soundFreqs }) {
     };
   }, [soundGroup, status]);
 
-  return <div>{/* <button onClick={playSound}>Play</button> */}</div>;
+  return <div> {/* <button onClick={playSound}>Play</button> */}</div>;
 }
 
 export default Sound;
