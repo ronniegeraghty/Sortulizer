@@ -3,10 +3,11 @@ import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import Footer from "./components/Footer";
 import Sound from "./components/Sound";
-import arrayCreator from "./sort-functions/arrayCreator";
-import switchSortType from "./sort-functions/switchSortType";
-import checkSort from "./sort-functions/checkSort";
-import calcTimeInterval from "./sort-functions/calcTimeInterval";
+import arrayCreator from "./functions/arrayCreator";
+import switchSortType from "./functions/switchSortType";
+import checkSort from "./functions/checkSort";
+import calcTimeInterval from "./functions/calcTimeInterval";
+import getFrequencies from "./functions/getFrequencies";
 import "./App.css";
 
 const App = () => {
@@ -95,7 +96,6 @@ const App = () => {
     }, calcTimeInterval(sortSpeed));
     return () => clearTimeout(timeout);
   }, [sortState, sortSpeed]);
-
   return (
     <div className="App">
       <NavBar
@@ -104,7 +104,7 @@ const App = () => {
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
       />
-      <Sound time={1000} />
+      <Sound time={1000} soundFreqs={getFrequencies(sortState)} />
       <Visualizer
         array={sortState.array}
         currentIndexes={sortState.currentIndexes}

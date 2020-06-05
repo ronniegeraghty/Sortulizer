@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
 import Pizzicato from "pizzicato";
 
-function Sound({ time, sounds }) {
-  let lowWave = new Pizzicato.Sound({
-    source: "wave",
-    options: {
-      frequency: 100,
-    },
+function Sound({ time, soundFreqs }) {
+  let soundGroup = new Pizzicato.Group([]);
+  soundFreqs.forEach(soundFreq => {
+    let sound = new Pizzicato.Sound({
+      source: "wave",
+      options: {
+        frequency: soundFreq,
+      },
+    });
+    soundGroup.addSound(sound);
   });
-  let highWave = new Pizzicato.Sound({
-    source: "wave",
-    options: {
-      frequency: 800,
-    },
-  });
-  var soundGroup = new Pizzicato.Group([lowWave, highWave]);
   function playSound() {
     soundGroup.play();
     setTimeout(() => {
