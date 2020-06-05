@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import WindowFocusHandler from "./components/WindowFocusHandler";
 import NavBar from "./components/NavBar";
 import Visualizer from "./components/Visualizer";
 import Footer from "./components/Footer";
@@ -46,6 +47,28 @@ const App = () => {
    */
   function setSpeed(speed) {
     setSortSpeed(speed);
+  }
+
+  function setFocus(focus) {
+    if (focus) {
+      if (sortState.prevStatus === undefined) {
+        setSortState(prevState => ({
+          ...prevState,
+          status: "inactive",
+        }));
+      } else {
+        setSortState(prevState => ({
+          ...prevState,
+          status: prevState.prevStatus,
+        }));
+      }
+    } else {
+      setSortState(prevState => ({
+        ...prevState,
+        status: "unfocused",
+        prevStatus: prevState.status,
+      }));
+    }
   }
 
   /**
@@ -99,6 +122,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <WindowFocusHandler setFocusCB={setFocus} />
       <NavBar
         radArrCB={createRandomArray}
         sortTypeCB={setSortType}
