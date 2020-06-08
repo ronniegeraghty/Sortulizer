@@ -16,8 +16,7 @@ const App = () => {
     ...switchSortType("bubble"),
     array: arrayCreator(20),
   });
-  // let sortSpeed = 100;
-  const [sortSpeed, setSortSpeed] = useState(100);
+  const [sortSpeed, setSortSpeed] = useState(50);
 
   /**
    * Create a randomly shuffeled array and put it in the sortState

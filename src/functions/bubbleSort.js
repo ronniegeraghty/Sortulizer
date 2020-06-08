@@ -10,6 +10,7 @@ const bubbleSort = sortState => {
   let newArray = [...array];
   if (currentIndexes.length === 0) {
     currentIndexes = [0, 1];
+    return { ...sortState, currentIndexes: currentIndexes };
   }
   // See if we need to make a swap and make it
   if (array[currentIndexes[0]] > array[currentIndexes[1]]) {

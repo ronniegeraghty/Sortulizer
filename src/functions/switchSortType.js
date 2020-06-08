@@ -1,5 +1,6 @@
 import { INIT_SORT_STATE } from "./sortConstants";
 import { bubbleStartingState } from "./bubbleSort";
+import { mergeStartingState } from "./mergeSort";
 
 /**
  * Returns a new sortState to use for the given sort type
@@ -13,6 +14,7 @@ export default sortType => {
       newState = { ...bubbleStartingState };
       break;
     case "merge":
+      newState = { ...mergeStartingState };
       break;
     default:
       break;
