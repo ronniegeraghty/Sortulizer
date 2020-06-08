@@ -10,6 +10,7 @@ const mergeSort = sortState => {
     let brokenDownArray = breakDownArray(array);
     console.log("brokenDownArray", brokenDownArray);
     console.log(printMultiDimArray(brokenDownArray));
+    console.log(makeOneDimArray(brokenDownArray));
     return { ...sortState, currentIndexes: currentIndexes };
   }
   //compare elements
@@ -65,5 +66,13 @@ function printMultiDimArray(array) {
       printMultiDimArray(array[1]) +
       "]"
     );
+  }
+}
+
+function makeOneDimArray(array) {
+  if (array.length === 1) {
+    return array;
+  } else {
+    return [...makeOneDimArray(array[0]), ...makeOneDimArray(array[1])];
   }
 }
