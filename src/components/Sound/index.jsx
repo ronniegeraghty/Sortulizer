@@ -18,6 +18,7 @@ function Sound({ status, soundFreqs }) {
       });
       soundGroup.addSound(sound);
     });
+    soundGroup.volume = 0.3;
   } catch (error) {}
 
   //   function playSound() {
