@@ -1,43 +1,42 @@
-const mergeSort = sortState => {
+function mergeSort(sortState) {
   console.log("MERGE SORTING");
   //Set up variables from inputs
   let { array, currentIndexes, comparisons } = sortState;
   let newArray = [...array];
+  let nextIndexes = currentIndexes;
 
   //If merge sort just started set the init indexes
   if (currentIndexes.length === 0) {
-    currentIndexes = [0, 1];
-    let brokenDownArray = breakDownArray(array);
-    console.log("brokenDownArray", brokenDownArray);
-    console.log(printMultiDimArray(brokenDownArray));
-    console.log(makeOneDimArray(brokenDownArray));
-    return { ...sortState, currentIndexes: currentIndexes };
+    let multiDimArray = breakDownArray(array);
+    nextIndexes = getNextComparison(multiDimArray, newArray);
+    console.log("mergeSort -> nextIndexes", nextIndexes);
+
+    return {
+      ...sortState,
+      currentIndexes: nextIndexes,
+      multiDimArray: multiDimArray,
+    };
   }
-  //compare elements
-  if (array[currentIndexes[0]] > array[currentIndexes[1]]) {
-    newArray[currentIndexes[0]] = array[currentIndexes[1]];
-    newArray[currentIndexes[1]] = array[currentIndexes[0]];
-  }
+
+  //extract broken down array from sort state
+  let { multiDimArray } = sortState;
+
+  //Compare numbers and current indexes
+  compare(newArray, multiDimArray, nextIndexes);
   //Made a comparison
   comparisons++;
-
-  let nextIndexes = currentIndexes;
-  if (currentIndexes[0] >= array.length - 2) {
-    nextIndexes = [0, 1];
-  } else {
-    nextIndexes[0] += 2;
-    nextIndexes[1] += 2;
-  }
+  // find the next indexes to comapare
+  nextIndexes = getNextComparison(multiDimArray, newArray);
 
   let nextSortState = {
     ...sortState,
     array: newArray,
     currentIndexes: nextIndexes,
     comparisons: comparisons,
-    status: "finished",
+    status: "paused",
   };
   return nextSortState;
-};
+}
 
 export const mergeStartingState = {
   type: "merge",
@@ -75,4 +74,47 @@ function makeOneDimArray(array) {
   } else {
     return [...makeOneDimArray(array[0]), ...makeOneDimArray(array[1])];
   }
+}
+
+function getNextComparison(multiDimArray, oneDimArray) {
+  console.log(
+    "getNextComparison -> multiDimArray",
+    printMultiDimArray(multiDimArray)
+  );
+  if (
+    typeof multiDimArray[0][0] === "number" &&
+    typeof multiDimArray[1][0] === "object"
+  ) {
+    return getNextComparison(multiDimArray[1], oneDimArray);
+  } else if (
+    typeof multiDimArray[0][0] === "number" &&
+    typeof multiDimArray[1][0] === "number"
+  ) {
+    return [
+      oneDimArray.indexOf(multiDimArray[0][0]),
+      oneDimArray.indexOf(multiDimArray[1][0]),
+    ];
+  } else if (typeof multiDimArray[0] === "object") {
+    return getNextComparison(multiDimArray[0], oneDimArray);
+  }
+  return [0, 1, 2];
+}
+
+function compare(array, multiDimArray, indexes) {
+  console.log("compare -> multiDimArray", multiDimArray);
+  if (typeof multiDimArray[0][0] === "object") {
+    return compare(array, multiDimArray[0], indexes);
+  } else if (
+    typeof multiDimArray[0][0] === "number" &&
+    typeof multiDimArray[1][0] === "object"
+  ) {
+    return compare(array, multiDimArray[1], indexes);
+  } else if (
+    typeof multiDimArray[0][0] === "number" &&
+    typeof multiDimArray[1][0] === "number"
+  ) {
+    //do comparison
+  }
+
+  return { newArray: [], newMultiDimArray: [] };
 }
