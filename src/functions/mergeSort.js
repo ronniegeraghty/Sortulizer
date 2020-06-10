@@ -1,3 +1,9 @@
+export const mergeStartingState = {
+  type: "merge",
+  sort: mergeSort,
+  comparisons: 0,
+};
+
 function mergeSort(sortState) {
   console.log("MERGE SORTING");
   //Set up variables from inputs
@@ -15,34 +21,31 @@ function mergeSort(sortState) {
       ...sortState,
       currentIndexes: nextIndexes,
       multiDimArray: multiDimArray,
+      status: "paused",
     };
   }
 
   //extract broken down array from sort state
   let { multiDimArray } = sortState;
-
   //Compare numbers and current indexes
-  compare(newArray, multiDimArray, nextIndexes);
+  let newMultiDimArray = compare(newArray, multiDimArray, nextIndexes);
+  console.log("Compare Final Output: ", printMultiDimArray(newMultiDimArray));
   //Made a comparison
   comparisons++;
+  newArray = makeOneDimArray(newMultiDimArray);
   // find the next indexes to comapare
-  nextIndexes = getNextComparison(multiDimArray, newArray);
+  nextIndexes = getNextComparison(newMultiDimArray, newArray);
 
   let nextSortState = {
     ...sortState,
     array: newArray,
     currentIndexes: nextIndexes,
+    multiDimArray: newMultiDimArray,
     comparisons: comparisons,
     status: "paused",
   };
   return nextSortState;
 }
-
-export const mergeStartingState = {
-  type: "merge",
-  sort: mergeSort,
-  comparisons: 0,
-};
 
 function breakDownArray(array) {
   if (array.length === 1) {
@@ -55,8 +58,8 @@ function breakDownArray(array) {
 }
 
 function printMultiDimArray(array) {
-  if (array.length === 1) {
-    return "[" + array[0] + "]";
+  if (typeof array[0] === "number") {
+    return "[" + array + "]";
   } else {
     return (
       "[" +
@@ -69,7 +72,7 @@ function printMultiDimArray(array) {
 }
 
 function makeOneDimArray(array) {
-  if (array.length === 1) {
+  if (typeof array[0] === "number") {
     return array;
   } else {
     return [...makeOneDimArray(array[0]), ...makeOneDimArray(array[1])];
@@ -77,10 +80,10 @@ function makeOneDimArray(array) {
 }
 
 function getNextComparison(multiDimArray, oneDimArray) {
-  console.log(
-    "getNextComparison -> multiDimArray",
-    printMultiDimArray(multiDimArray)
-  );
+  // console.log(
+  //   "getNextComparison -> multiDimArray",
+  //   printMultiDimArray(multiDimArray)
+  // );
   if (
     typeof multiDimArray[0][0] === "number" &&
     typeof multiDimArray[1][0] === "object"
@@ -101,20 +104,41 @@ function getNextComparison(multiDimArray, oneDimArray) {
 }
 
 function compare(array, multiDimArray, indexes) {
-  console.log("compare -> multiDimArray", multiDimArray);
+  //console.log("compare -> multiDimArray", multiDimArray);
   if (typeof multiDimArray[0][0] === "object") {
-    return compare(array, multiDimArray[0], indexes);
+    return [compare(array, multiDimArray[0], indexes), multiDimArray[1]];
   } else if (
     typeof multiDimArray[0][0] === "number" &&
     typeof multiDimArray[1][0] === "object"
   ) {
-    return compare(array, multiDimArray[1], indexes);
+    return [multiDimArray[0], compare(array, multiDimArray[1], indexes)];
   } else if (
     typeof multiDimArray[0][0] === "number" &&
     typeof multiDimArray[1][0] === "number"
   ) {
-    //do comparison
+    console.log("compare -> multiDimArray", multiDimArray);
+    let resultArr = [];
+    if (multiDimArray[0][0] < multiDimArray[1][0]) {
+      resultArr.push(multiDimArray[0][0]);
+      multiDimArray[0].splice(1).length &&
+        resultArr.push(multiDimArray[0].splice[1]);
+      if (multiDimArray[1].length === 1) {
+        resultArr.push(multiDimArray[1][0]);
+      } else {
+        resultArr.push(multiDimArray[1]);
+      }
+    } else {
+      resultArr.push(multiDimArray[1][0]);
+      if (multiDimArray[0].length === 1) {
+        resultArr.push(multiDimArray[0][0]);
+      } else {
+        resultArr.push(multiDimArray[0]);
+      }
+      multiDimArray[1].splice(1).length &&
+        resultArr.push(multiDimArray[1].splice(1));
+    }
+    return resultArr;
   }
 
-  return { newArray: [], newMultiDimArray: [] };
+  return "Dingus!!!";
 }

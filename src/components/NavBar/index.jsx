@@ -11,16 +11,16 @@ import {
 } from "react-bootstrap";
 import "./navbar.css";
 
-const NavBar = (props) => {
+const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
-  const [savedArrayLength, setSavedArrayLength] = useState(20);
+  const [savedArrayLength, setSavedArrayLength] = useState(props.arrayLength);
   const [tooltip, setTooltip] = useState({
     show: false,
     content: "",
   });
   const inputBox = useRef(null);
 
-  const randomizeArray = (e) => {
+  const randomizeArray = e => {
     e.preventDefault();
     let arrayLengthInt = parseInt(arrayLength, 10);
     if (props.sortStatus === "active") {
@@ -68,9 +68,9 @@ const NavBar = (props) => {
                 placeholder="Array Length"
                 className="mr-sm-2"
                 value={arrayLength || ""}
-                onChange={(e) => {
+                onChange={e => {
                   setArrayLength(e.target.value);
-                  setTooltip((prev) => ({
+                  setTooltip(prev => ({
                     ...prev,
                     show: false,
                   }));
@@ -88,7 +88,7 @@ const NavBar = (props) => {
                 show={tooltip.show}
                 placement={"bottom"}
               >
-                {(props) => (
+                {props => (
                   <Tooltip
                     id="needs-to-be-num"
                     {...props}
@@ -110,14 +110,14 @@ const NavBar = (props) => {
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item
-                onClick={(e) => {
+                onClick={e => {
                   props.sortTypeCB("bubble");
                 }}
               >
                 Bubble Sort
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={(e) => {
+                onClick={e => {
                   props.sortTypeCB("merge");
                 }}
               >

@@ -14,16 +14,16 @@ import "./App.css";
 const App = () => {
   const [sortState, setSortState] = useState({
     ...switchSortType("merge"),
-    array: arrayCreator(20),
+    array: arrayCreator(7),
   });
-  const [sortSpeed, setSortSpeed] = useState(50);
+  const [sortSpeed, setSortSpeed] = useState(100);
 
   /**
    * Create a randomly shuffeled array and put it in the sortState
    * @param {int} arrLen
    */
   function createRandomArray(arrLen) {
-    setSortState((prevState) => ({
+    setSortState(prevState => ({
       ...switchSortType(prevState.type),
       array: arrayCreator(arrLen),
     }));
@@ -34,7 +34,7 @@ const App = () => {
    * @param {string} sortType
    */
   function setSortType(sortType) {
-    setSortState((prevState) => ({
+    setSortState(prevState => ({
       ...prevState,
       ...switchSortType(sortType),
     }));
@@ -51,18 +51,18 @@ const App = () => {
   function setFocus(focus) {
     if (focus) {
       if (sortState.prevStatus === undefined) {
-        setSortState((prevState) => ({
+        setSortState(prevState => ({
           ...prevState,
           status: "inactive",
         }));
       } else {
-        setSortState((prevState) => ({
+        setSortState(prevState => ({
           ...prevState,
           status: prevState.prevStatus,
         }));
       }
     } else {
-      setSortState((prevState) => ({
+      setSortState(prevState => ({
         ...prevState,
         status: "unfocused",
         prevStatus: prevState.status,
@@ -76,17 +76,17 @@ const App = () => {
    */
   function sortButton() {
     if (sortState.status === "active") {
-      setSortState((prevState) => ({
+      setSortState(prevState => ({
         ...prevState,
         status: "paused",
       }));
     } else if (sortState.status === "paused") {
-      setSortState((prevState) => ({
+      setSortState(prevState => ({
         ...prevState,
         status: "active",
       }));
     } else if (sortState.status === "inactive") {
-      setSortState((prevState) => ({
+      setSortState(prevState => ({
         ...prevState,
         ...switchSortType(prevState.type),
         status: "active",
@@ -98,17 +98,17 @@ const App = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (sortState.status === "active") {
-        setSortState((prevState) => ({
+        setSortState(prevState => ({
           ...prevState,
           ...prevState.sort(prevState),
         }));
       } else if (sortState.status === "finished") {
-        setSortState((prevState) => ({
+        setSortState(prevState => ({
           ...prevState,
           ...checkSort(prevState),
         }));
       } else if (sortState.status === "checked") {
-        setSortState((prevState) => ({
+        setSortState(prevState => ({
           ...switchSortType(prevState.type),
           array: prevState.array,
           traversals: prevState.traversals,
@@ -128,6 +128,7 @@ const App = () => {
         sortTypeCB={setSortType}
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
+        arrayLength={sortState.array.length}
       />
       <Sound
         status={sortState.status}
