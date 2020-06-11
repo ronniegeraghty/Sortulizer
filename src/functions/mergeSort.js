@@ -4,141 +4,94 @@ export const mergeStartingState = {
   comparisons: 0,
 };
 
+/**
+ * When called it will do one step of a merge sort
+ * @param {object} sortState
+ * @returns {object} nextSortState
+ */
 function mergeSort(sortState) {
   console.log("MERGE SORTING");
-  //Set up variables from inputs
-  let { array, currentIndexes, comparisons } = sortState;
-  let newArray = [...array];
-  let nextIndexes = currentIndexes;
-
-  //If merge sort just started set the init indexes
-  if (currentIndexes.length === 0) {
-    let multiDimArray = breakDownArray(array);
-    nextIndexes = getNextComparison(multiDimArray, newArray);
-    console.log("mergeSort -> nextIndexes", nextIndexes);
-
-    return {
-      ...sortState,
-      currentIndexes: nextIndexes,
-      multiDimArray: multiDimArray,
-      status: "paused",
-    };
+  let { array, currentIndexes } = sortState;
+  //If currentIndexes are empty then we just started and need to set the first indexes
+  if (!currentIndexes.length) {
+    let multiDimArray = makeMultiDimArray(array);
+    printMultiDimArray(multiDimArray);
+    currentIndexes = getNextIndexes(multiDimArray, array);
   }
-
-  //extract broken down array from sort state
-  let { multiDimArray } = sortState;
-  //Compare numbers and current indexes
-  let newMultiDimArray = compare(newArray, multiDimArray, nextIndexes);
-  console.log("Compare Final Output: ", printMultiDimArray(newMultiDimArray));
-  //Made a comparison
-  comparisons++;
-  newArray = makeOneDimArray(newMultiDimArray);
-  // find the next indexes to comapare
-  nextIndexes = getNextComparison(newMultiDimArray, newArray);
 
   let nextSortState = {
     ...sortState,
-    array: newArray,
-    currentIndexes: nextIndexes,
-    multiDimArray: newMultiDimArray,
-    comparisons: comparisons,
     status: "paused",
   };
   return nextSortState;
 }
 
-function breakDownArray(array) {
-  if (array.length === 1) {
-    return array;
+/**
+ * returns a multidimensional array by putting the two halfs of the array into their own array
+ * @param {[number]} arr
+ */
+function makeMultiDimArray(arr) {
+  if (arr.length === 1) {
+    return arr;
   }
-  let halfLength = Math.floor(array.length / 2);
-  let secondHalf = [...array];
+  let halfLength = Math.floor(arr.length / 2);
+  let secondHalf = [...arr];
   let firstHalf = secondHalf.splice(0, halfLength);
-  return [breakDownArray(firstHalf), breakDownArray(secondHalf)];
+  return [makeMultiDimArray(firstHalf), makeMultiDimArray(secondHalf)];
 }
 
-function printMultiDimArray(array) {
-  if (typeof array[0] === "number") {
-    return "[" + array + "]";
-  } else {
-    return (
-      "[" +
-      printMultiDimArray(array[0]) +
-      "," +
-      printMultiDimArray(array[1]) +
-      "]"
-    );
-  }
-}
-
-function makeOneDimArray(array) {
-  if (typeof array[0] === "number") {
-    return array;
-  } else {
-    return [...makeOneDimArray(array[0]), ...makeOneDimArray(array[1])];
-  }
-}
-
-function getNextComparison(multiDimArray, oneDimArray) {
-  // console.log(
-  //   "getNextComparison -> multiDimArray",
-  //   printMultiDimArray(multiDimArray)
-  // );
-  if (
-    typeof multiDimArray[0][0] === "number" &&
-    typeof multiDimArray[1][0] === "object"
-  ) {
-    return getNextComparison(multiDimArray[1], oneDimArray);
-  } else if (
-    typeof multiDimArray[0][0] === "number" &&
-    typeof multiDimArray[1][0] === "number"
-  ) {
-    return [
-      oneDimArray.indexOf(multiDimArray[0][0]),
-      oneDimArray.indexOf(multiDimArray[1][0]),
-    ];
-  } else if (typeof multiDimArray[0] === "object") {
-    return getNextComparison(multiDimArray[0], oneDimArray);
-  }
-  return [0, 1, 2];
-}
-
-function compare(array, multiDimArray, indexes) {
-  //console.log("compare -> multiDimArray", multiDimArray);
-  if (typeof multiDimArray[0][0] === "object") {
-    return [compare(array, multiDimArray[0], indexes), multiDimArray[1]];
-  } else if (
-    typeof multiDimArray[0][0] === "number" &&
-    typeof multiDimArray[1][0] === "object"
-  ) {
-    return [multiDimArray[0], compare(array, multiDimArray[1], indexes)];
-  } else if (
-    typeof multiDimArray[0][0] === "number" &&
-    typeof multiDimArray[1][0] === "number"
-  ) {
-    console.log("compare -> multiDimArray", multiDimArray);
-    let resultArr = [];
-    if (multiDimArray[0][0] < multiDimArray[1][0]) {
-      resultArr.push(multiDimArray[0][0]);
-      multiDimArray[0].splice(1).length &&
-        resultArr.push(multiDimArray[0].splice[1]);
-      if (multiDimArray[1].length === 1) {
-        resultArr.push(multiDimArray[1][0]);
-      } else {
-        resultArr.push(multiDimArray[1]);
-      }
+/**
+ * Will return a String representation of a MultiDimensional Array
+ * @param {*} multiDimArr the MultiDimensional Array
+ * @param {boolean} firstCall default to true, only used when calling function recursively
+ * @returns {string} string representation of MultiDimensional Array
+ */
+function printMultiDimArray(multiDimArr, firstCall = true) {
+  //Start return string off with a "[" for the start of the array
+  let returnString = "[";
+  multiDimArr.forEach(element => {
+    if (typeof element !== "object") {
+      //if the element is not an object it is a number and we should add it to the return string
+      returnString = returnString + element + ",";
     } else {
-      resultArr.push(multiDimArray[1][0]);
-      if (multiDimArray[0].length === 1) {
-        resultArr.push(multiDimArray[0][0]);
-      } else {
-        resultArr.push(multiDimArray[0]);
-      }
-      multiDimArray[1].splice(1).length &&
-        resultArr.push(multiDimArray[1].splice(1));
+      //element is an object so dive deeper
+      returnString = returnString + printMultiDimArray(element, false);
     }
-    return resultArr;
+  });
+  if (returnString.charAt(returnString.length - 1) === ",") {
+    //remove the trainling comma if there is one
+    returnString = returnString.substr(0, returnString.length - 1);
   }
+  //Add a "]," to close the array and continue
+  returnString = returnString + "],";
+  if (firstCall) {
+    //if this was the first call in the recussion remove the trailing ","
+    returnString = returnString.substr(0, returnString.length - 1);
+    console.log(returnString);
+  }
+  return returnString;
+}
 
-  return "Dingus!!!";
+function getNextIndexes(multiDimArr, oneDimArr) {
+  if (multiDimArr.length === 2) {
+    let firstObjectIndex = findIndexOfFirstObject(multiDimArr);
+    if(firstObjectIndex !== -1){
+      
+    }
+  }
+}
+
+/**
+ * returns the index of the first object in the array, returns -1 if no objects found.
+ * @param {[]} arr
+ */
+function findIndexOfFirstObject(arr) {
+  let index = -1;
+  for (let i = 0; i < arr.length; i++) {
+    if (typeof arr[i] === "object") {
+      index = i;
+      break;
+    }
+  }
+  return index;
 }
