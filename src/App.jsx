@@ -16,7 +16,6 @@ const App = () => {
     ...switchSortType("bubble"),
     array: arrayCreator(20),
   });
-  // let sortSpeed = 100;
   const [sortSpeed, setSortSpeed] = useState(100);
 
   /**
@@ -36,7 +35,7 @@ const App = () => {
    */
   function setSortType(sortType) {
     setSortState(prevState => ({
-      ...prevState,
+      array: prevState.array,
       ...switchSortType(sortType),
     }));
   }
@@ -125,9 +124,11 @@ const App = () => {
       <WindowFocusHandler setFocusCB={setFocus} />
       <NavBar
         radArrCB={createRandomArray}
+        sortType={sortState.type}
         sortTypeCB={setSortType}
         sortButtonCB={sortButton}
         sortStatus={sortState.status}
+        arrayLength={sortState.array.length}
       />
       <Sound
         status={sortState.status}
