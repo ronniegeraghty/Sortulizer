@@ -13,8 +13,8 @@ import "./App.css";
 
 const App = () => {
   const [sortState, setSortState] = useState({
-    ...switchSortType("merge"),
-    array: arrayCreator(7),
+    ...switchSortType("bubble"),
+    array: arrayCreator(20),
   });
   const [sortSpeed, setSortSpeed] = useState(100);
 
@@ -35,7 +35,7 @@ const App = () => {
    */
   function setSortType(sortType) {
     setSortState(prevState => ({
-      ...prevState,
+      array: prevState.array,
       ...switchSortType(sortType),
     }));
   }

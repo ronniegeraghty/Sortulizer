@@ -19,11 +19,11 @@ function mergeSort(sortState) {
       ...sortState,
       currentIndexes: nextIndexes,
       multiDimArray: multiDimArray,
-      status: "paused",
     };
   }
-  let { multiDimArray, status } = sortState;
+  let { multiDimArray, status, comparisons } = sortState;
   let nextMultiDimArray = compare(multiDimArray);
+  comparisons++;
   let nextArray = makeOneDimArray(nextMultiDimArray);
   let nextIndexes = [0, 1];
   if (isArrayOfNums(nextMultiDimArray)) {
@@ -39,6 +39,7 @@ function mergeSort(sortState) {
     currentIndexes: nextIndexes,
     multiDimArray: nextMultiDimArray,
     status: status,
+    comparisons: comparisons,
   };
   return nextSortState;
 }
@@ -63,31 +64,31 @@ function makeMultiDimArray(arr) {
  * @param {boolean} firstCall default to true, only used when calling function recursively
  * @returns {string} string representation of MultiDimensional Array
  */
-function printMultiDimArray(multiDimArr, firstCall = true) {
-  //Start return string off with a "[" for the start of the array
-  let returnString = "[";
-  multiDimArr.forEach(element => {
-    if (typeof element !== "object") {
-      //if the element is not an object it is a number and we should add it to the return string
-      returnString = returnString + element + ",";
-    } else {
-      //element is an object so dive deeper
-      returnString = returnString + printMultiDimArray(element, false);
-    }
-  });
-  if (returnString.charAt(returnString.length - 1) === ",") {
-    //remove the trainling comma if there is one
-    returnString = returnString.substr(0, returnString.length - 1);
-  }
-  //Add a "]," to close the array and continue
-  returnString = returnString + "],";
-  if (firstCall) {
-    //if this was the first call in the recussion remove the trailing ","
-    returnString = returnString.substr(0, returnString.length - 1);
-    console.log(returnString);
-  }
-  return returnString;
-}
+// function printMultiDimArray(multiDimArr, firstCall = true) {
+//   //Start return string off with a "[" for the start of the array
+//   let returnString = "[";
+//   multiDimArr.forEach(element => {
+//     if (typeof element !== "object") {
+//       //if the element is not an object it is a number and we should add it to the return string
+//       returnString = returnString + element + ",";
+//     } else {
+//       //element is an object so dive deeper
+//       returnString = returnString + printMultiDimArray(element, false);
+//     }
+//   });
+//   if (returnString.charAt(returnString.length - 1) === ",") {
+//     //remove the trainling comma if there is one
+//     returnString = returnString.substr(0, returnString.length - 1);
+//   }
+//   //Add a "]," to close the array and continue
+//   returnString = returnString + "],";
+//   if (firstCall) {
+//     //if this was the first call in the recussion remove the trailing ","
+//     returnString = returnString.substr(0, returnString.length - 1);
+//     console.log(returnString);
+//   }
+//   return returnString;
+// }
 
 /**
  * Will return the indexes of the next numbers to be compared
@@ -121,16 +122,16 @@ function getNextIndexes(multiDimArr, oneDimArr) {
  * returns the index of the first object in the array, returns -1 if no objects found.
  * @param {[]} arr
  */
-function findIndexOfFirstObject(arr) {
-  let index = -1;
-  for (let i = 0; i < arr.length; i++) {
-    if (typeof arr[i] === "object") {
-      index = i;
-      break;
-    }
-  }
-  return index;
-}
+// function findIndexOfFirstObject(arr) {
+//   let index = -1;
+//   for (let i = 0; i < arr.length; i++) {
+//     if (typeof arr[i] === "object") {
+//       index = i;
+//       break;
+//     }
+//   }
+//   return index;
+// }
 
 /**
  * Returns true if the array only contains numbers, else returns false.
