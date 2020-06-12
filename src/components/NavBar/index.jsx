@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Navbar,
   Nav,
@@ -13,9 +13,7 @@ import "./navbar.css";
 
 const NavBar = props => {
   const [arrayLength, setArrayLength] = useState(undefined);
-  const [savedArrayLength, setSavedArrayLength] = useState(20);
-  const [sortType, setSortType] = useState("bubble");
-  const [algorithmTitle, setAlgorithmTitle] = useState("Algorithm: Bubble");
+  const [savedArrayLength, setSavedArrayLength] = useState(props.arrayLength);
   const [tooltip, setTooltip] = useState({
     show: false,
     content: "",
@@ -50,8 +48,10 @@ const NavBar = props => {
 
   const sortArray = () => {
     setTooltip({ show: false });
-    props.sortButtonCB(sortType);
+    props.sortButtonCB();
   };
+
+  useEffect(() => {}, [props.sortType]);
 
   return (
     <div>
@@ -101,11 +101,16 @@ const NavBar = props => {
             </Form>
           </div>
           <div className="selectors">
-            <NavDropdown title={algorithmTitle} id="basic-nav-dropdown">
+            <NavDropdown
+              title={
+                "Algorithm: " +
+                props.sortType.charAt(0).toUpperCase() +
+                props.sortType.slice(1)
+              }
+              id="basic-nav-dropdown"
+            >
               <NavDropdown.Item
                 onClick={e => {
-                  setSortType("bubble");
-                  setAlgorithmTitle("Algorithm: Bubble");
                   props.sortTypeCB("bubble");
                 }}
               >
@@ -113,8 +118,6 @@ const NavBar = props => {
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={e => {
-                  setSortType("merge");
-                  setAlgorithmTitle("Algorithm: Merge");
                   props.sortTypeCB("merge");
                 }}
               >
