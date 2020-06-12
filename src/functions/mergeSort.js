@@ -10,15 +10,11 @@ export const mergeStartingState = {
  * @returns {object} nextSortState
  */
 function mergeSort(sortState) {
-  console.log("MERGE SORTING");
   let { array, currentIndexes } = sortState;
   //If currentIndexes are empty then we just started and need to set the first indexes
   if (!currentIndexes.length) {
-    console.log("Frist Run, Setting up Initial Indexes");
     let multiDimArray = makeMultiDimArray(array);
-    //printMultiDimArray(multiDimArray);
     let nextIndexes = getNextIndexes(multiDimArray, array);
-    console.log("mergeSort -> nextIndexes", nextIndexes);
     return {
       ...sortState,
       currentIndexes: nextIndexes,
@@ -26,11 +22,23 @@ function mergeSort(sortState) {
       status: "paused",
     };
   }
-  let { multiDimArray } = sortState;
+  let { multiDimArray, status } = sortState;
+  let nextMultiDimArray = compare(multiDimArray);
+  let nextArray = makeOneDimArray(nextMultiDimArray);
+  let nextIndexes = [0, 1];
+  if (isArrayOfNums(nextMultiDimArray)) {
+    //finished sort
+    status = "finished";
+  } else {
+    nextIndexes = getNextIndexes(nextMultiDimArray, nextArray);
+  }
 
   let nextSortState = {
     ...sortState,
-    status: "paused",
+    array: nextArray,
+    currentIndexes: nextIndexes,
+    multiDimArray: nextMultiDimArray,
+    status: status,
   };
   return nextSortState;
 }
@@ -100,11 +108,11 @@ function getNextIndexes(multiDimArr, oneDimArr) {
         oneDimArr.indexOf(multiDimArr[1][0]),
       ];
     }
-  } else if (multiDimArr > 2) {
-    return getNextIndexes([
-      multiDimArr[multiDimArrLen - 2],
-      multiDimArr[multiDimArrLen - 1],
-    ]);
+  } else if (multiDimArrLen > 2) {
+    return getNextIndexes(
+      [multiDimArr[multiDimArrLen - 2], multiDimArr[multiDimArrLen - 1]],
+      oneDimArr
+    );
   }
   return ["FAILURE"];
 }
@@ -125,7 +133,7 @@ function findIndexOfFirstObject(arr) {
 }
 
 /**
- * Returns true of the array only contains numbers, else returns false.
+ * Returns true if the array only contains numbers, else returns false.
  * @param {[]} arr
  */
 function isArrayOfNums(arr) {
@@ -137,4 +145,64 @@ function isArrayOfNums(arr) {
   }
   //if we found a not num then the array is NOT an array of nums
   return !foundNotNum;
+}
+
+/**
+ * Returns new multidimensional array where the next merge sort comparison
+ * has been done.
+ * @param {[]} multiDimArr
+ */
+function compare(multiDimArr) {
+  let multiDimArrLen = multiDimArr.length;
+  if (multiDimArrLen === 2) {
+    if (!isArrayOfNums(multiDimArr[0])) {
+      return [compare(multiDimArr[0]), multiDimArr[1]];
+    } else if (!isArrayOfNums(multiDimArr[1])) {
+      return [multiDimArr[0], compare(multiDimArr[1])];
+    } else if (isArrayOfNums(multiDimArr[0]) && isArrayOfNums(multiDimArr[1])) {
+      //Do comparison
+      let returnArr = [];
+      if (multiDimArr[0][0] < multiDimArr[1][0]) {
+        returnArr.push(multiDimArr[0][0]);
+        if (multiDimArr[0].length === 1) {
+          returnArr.push(...multiDimArr[1]);
+        } else {
+          returnArr.push([...multiDimArr[0].slice(1)]);
+          returnArr.push([...multiDimArr[1]]);
+        }
+      } else {
+        returnArr.push(multiDimArr[1][0]);
+        if (multiDimArr[1].length === 1) {
+          returnArr.push(...multiDimArr[0]);
+        } else {
+          returnArr.push([...multiDimArr[0]]);
+          returnArr.push([...multiDimArr[1].slice(1)]);
+        }
+      }
+      return returnArr;
+    }
+  } else if (multiDimArrLen > 2) {
+    return [
+      ...multiDimArr.slice(0, multiDimArrLen - 2),
+      ...compare(multiDimArr.slice(multiDimArrLen - 2, multiDimArrLen)),
+    ];
+  }
+  //Catch no matching pattern
+  return ["FAILURE"];
+}
+
+/**
+ * returns a one dimensional array from a give mutlidimensional array
+ * @param {[]} multiDimArr
+ */
+function makeOneDimArray(multiDimArr) {
+  let returnArr = [];
+  multiDimArr.forEach(element => {
+    if (typeof element !== "object") {
+      returnArr.push(element);
+    } else {
+      returnArr.push(...makeOneDimArray(element));
+    }
+  });
+  return returnArr;
 }
