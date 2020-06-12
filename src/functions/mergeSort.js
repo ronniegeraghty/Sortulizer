@@ -14,10 +14,19 @@ function mergeSort(sortState) {
   let { array, currentIndexes } = sortState;
   //If currentIndexes are empty then we just started and need to set the first indexes
   if (!currentIndexes.length) {
+    console.log("Frist Run, Setting up Initial Indexes");
     let multiDimArray = makeMultiDimArray(array);
-    printMultiDimArray(multiDimArray);
-    currentIndexes = getNextIndexes(multiDimArray, array);
+    //printMultiDimArray(multiDimArray);
+    let nextIndexes = getNextIndexes(multiDimArray, array);
+    console.log("mergeSort -> nextIndexes", nextIndexes);
+    return {
+      ...sortState,
+      currentIndexes: nextIndexes,
+      multiDimArray: multiDimArray,
+      status: "paused",
+    };
   }
+  let { multiDimArray } = sortState;
 
   let nextSortState = {
     ...sortState,
@@ -72,13 +81,32 @@ function printMultiDimArray(multiDimArr, firstCall = true) {
   return returnString;
 }
 
+/**
+ * Will return the indexes of the next numbers to be compared
+ * @param {[]} multiDimArr the current multiDimArr of the sort
+ * @param {[]} oneDimArr the current oneDimArr of the sort
+ * @returns {[]} nextIndexes
+ */
 function getNextIndexes(multiDimArr, oneDimArr) {
-  if (multiDimArr.length === 2) {
-    let firstObjectIndex = findIndexOfFirstObject(multiDimArr);
-    if(firstObjectIndex !== -1){
-      
+  let multiDimArrLen = multiDimArr.length;
+  if (multiDimArrLen === 2) {
+    if (!isArrayOfNums(multiDimArr[0])) {
+      return getNextIndexes(multiDimArr[0], oneDimArr);
+    } else if (!isArrayOfNums(multiDimArr[1])) {
+      return getNextIndexes(multiDimArr[1], oneDimArr);
+    } else if (isArrayOfNums(multiDimArr[0]) && isArrayOfNums(multiDimArr[1])) {
+      return [
+        oneDimArr.indexOf(multiDimArr[0][0]),
+        oneDimArr.indexOf(multiDimArr[1][0]),
+      ];
     }
+  } else if (multiDimArr > 2) {
+    return getNextIndexes([
+      multiDimArr[multiDimArrLen - 2],
+      multiDimArr[multiDimArrLen - 1],
+    ]);
   }
+  return ["FAILURE"];
 }
 
 /**
@@ -94,4 +122,19 @@ function findIndexOfFirstObject(arr) {
     }
   }
   return index;
+}
+
+/**
+ * Returns true of the array only contains numbers, else returns false.
+ * @param {[]} arr
+ */
+function isArrayOfNums(arr) {
+  let foundNotNum = false;
+  for (let element of arr) {
+    if (typeof element !== "number") {
+      foundNotNum = true;
+    }
+  }
+  //if we found a not num then the array is NOT an array of nums
+  return !foundNotNum;
 }
