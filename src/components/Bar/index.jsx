@@ -13,7 +13,7 @@ export default function Bar({
   const [color, setColor] = useState(
     sorting
       ? "linear-gradient(120deg, red, yellow)"
-      : "linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)"
+      : "linear-gradient(160deg, #84fab0 0%, #8fd3f4 100%)"
   );
   const [numTextHeight, setNumTextHeight] = useState(
     textSize > 10 ? 10 : textSize
@@ -23,7 +23,7 @@ export default function Bar({
     if (sorting) {
       setColor("linear-gradient(120deg, red, yellow)");
     } else {
-      setColor("linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)");
+      setColor("linear-gradient(160deg, #84fab0 0%, #8fd3f4 100%)");
     }
     if (textSize > 10) {
       setNumTextHeight(10);
