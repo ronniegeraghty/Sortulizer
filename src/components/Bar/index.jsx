@@ -55,4 +55,5 @@ Bar.propTypes = {
   margin: PropTypes.number,
   textSize: PropTypes.number,
   sorting: PropTypes.bool,
+  lineHeight: PropTypes.number,
 };

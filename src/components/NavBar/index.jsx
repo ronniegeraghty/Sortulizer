@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import {
   Navbar,
   Nav,
@@ -133,6 +134,15 @@ const NavBar = props => {
       </Navbar>
     </div>
   );
+};
+
+NavBar.propTypes = {
+  arrayLength: PropTypes.number,
+  sortStatus: PropTypes.string,
+  radArrCB: PropTypes.func,
+  sortButtonCB: PropTypes.func,
+  sortType: PropTypes.string,
+  sortTypeCB: PropTypes.func,
 };
 
 export default NavBar;

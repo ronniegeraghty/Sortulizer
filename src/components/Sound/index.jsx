@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import Pizzicato from "pizzicato";
 
 function Sound({ status, soundFreqs }) {
@@ -39,5 +40,10 @@ function Sound({ status, soundFreqs }) {
 
   return <div> {/* <button onClick={playSound}>Play</button> */}</div>;
 }
+
+Sound.propTypes = {
+  status: PropTypes.string,
+  soundFreqs: PropTypes.number,
+};
 
 export default Sound;

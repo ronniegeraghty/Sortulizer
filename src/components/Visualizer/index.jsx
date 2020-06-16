@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./visualizer.css";
 import CustomSlider from "./CustomSlider";
 import Bar from "../Bar";
@@ -61,3 +62,11 @@ export default function Visualizer({
     </div>
   );
 }
+
+Visualizer.propTypes = {
+  array: PropTypes.array,
+  currentIndexes: PropTypes.array,
+  traversals: PropTypes.number,
+  comparisons: PropTypes.number,
+  sortSpeedCB: PropTypes.func,
+};
