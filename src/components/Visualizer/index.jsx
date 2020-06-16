@@ -50,9 +50,10 @@ export default function Visualizer({
             key={value}
             number={value}
             width={barWidth}
-            height={(value * 100) / array.length}
+            height={(value * 90) / (array.length - 1)}
             margin={5 / array.length}
             textSize={50 / array.length}
+            lineHeight={1}
             sorting={currentIndexes.includes(index)}
           />
         ))}
