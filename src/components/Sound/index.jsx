@@ -7,6 +7,7 @@ function Sound({ status, soundFreqs }) {
     play: () => {},
     stop: () => {},
   };
+  /*Try to add Pizzicato sounds to sound group.*/
   try {
     soundGroup = new Pizzicato.Group([]);
     soundFreqs.forEach(soundFreq => {
@@ -43,7 +44,7 @@ function Sound({ status, soundFreqs }) {
 
 Sound.propTypes = {
   status: PropTypes.string,
-  soundFreqs: PropTypes.number,
+  soundFreqs: PropTypes.array,
 };
 
 export default Sound;

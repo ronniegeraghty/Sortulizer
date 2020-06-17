@@ -1,3 +1,20 @@
+/**
+ * Returns an array with every int between 0 and arrayLength - 1,
+ * at random indexes
+ * @param {int} arrayLength
+ * @returns {int[]} an array with every int between 0 and arrayLength - 1,
+ * at random indexes
+ */
+export default arrayLength => {
+  return shuffle([...Array(arrayLength).keys()]); //returns random order
+  // return [...Array(arrayLength).keys()];       //returns in order
+};
+
+/**
+ * Takes an array and randomly shuffles the elements positions around and returns the new array.
+ * @param {[numbers]} array
+ * @returns {[numbers]} shuffled array
+ */
 function shuffle(array) {
   var currentIndexes = array.length,
     temporaryValue,
@@ -17,14 +34,3 @@ function shuffle(array) {
 
   return array;
 }
-/**
- * Returns an array with every int between 0 and arrayLength - 1,
- * at random indexes
- * @param {int} arrayLength
- * @returns {int[]} an array with every int between 0 and arrayLength - 1,
- * at random indexes
- */
-export default arrayLength => {
-  return shuffle([...Array(arrayLength).keys()]); //returns random order
-  // return [...Array(arrayLength).keys()];       //returns in order
-};

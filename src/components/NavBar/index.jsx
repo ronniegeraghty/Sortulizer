@@ -21,6 +21,11 @@ const NavBar = props => {
   });
   const inputBox = useRef(null);
 
+  /**
+   * Checks that input in text feild is a number and will deploy appropriate tool tip
+   * if not. Calls callback function to make new random array.
+   * @param {*} e
+   */
   const randomizeArray = e => {
     e.preventDefault();
     let arrayLengthInt = parseInt(arrayLength, 10);
@@ -47,6 +52,9 @@ const NavBar = props => {
     }
   };
 
+  /**
+   * Calls sort button call back function from props, to start sorting the array.
+   */
   const sortArray = () => {
     setTooltip({ show: false });
     props.sortButtonCB();
