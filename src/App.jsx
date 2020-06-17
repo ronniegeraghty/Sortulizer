@@ -48,6 +48,10 @@ const App = () => {
     setSortSpeed(speed);
   }
 
+  /**
+   * Changes the sortState when the page is focused or unfocused.
+   * @param {boolean} focus
+   */
   function setFocus(focus) {
     if (focus) {
       if (sortState.prevStatus === undefined) {

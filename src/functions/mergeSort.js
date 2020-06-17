@@ -1,3 +1,6 @@
+/**
+ * The default sortState for using merge sort.
+ */
 export const mergeStartingState = {
   type: "merge",
   sort: mergeSort,

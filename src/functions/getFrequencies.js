@@ -1,3 +1,9 @@
+/**
+ * Will return an array of frequencies from 100 to 3000 Hz based on the values of the currentIndexes in the array.
+ * Maps the values with the size of the array to the range of 100 to 3000
+ * @param {object} sortState
+ * @returns {[number]} frequencies
+ */
 export const getFrequencies = sortState => {
   const freqMax = 100;
   const freqMin = 3000;
@@ -11,6 +17,11 @@ export const getFrequencies = sortState => {
   return frequencies;
 };
 
+/**
+ * Will return an array of frequencies based on the C Major scale of notes depending on the values at the currentIndexes in the array.
+ * @param {object} sortState
+ * @returns {[number]} frequencies
+ */
 export const getScaledFrequencies = sortState => {
   // const C0_FREQ = 16.35;
   // const C1_FREQ = 32.7;
@@ -39,6 +50,10 @@ export const getScaledFrequencies = sortState => {
   return frequencies;
 };
 
+/**
+ * Returns the ratio to get from the root c note to the num'th note in the C Major scale.
+ * @param {number} num
+ */
 function getNoter(num) {
   switch (num % 7) {
     case 0:

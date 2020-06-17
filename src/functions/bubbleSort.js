@@ -63,6 +63,9 @@ const bubbleSort = sortState => {
   return nextSortState;
 };
 
+/**
+ * The default starting state for a bubble sort, sets up sortState for the bubble sort process.
+ */
 export const bubbleStartingState = {
   type: "bubble",
   sort: bubbleSort,
