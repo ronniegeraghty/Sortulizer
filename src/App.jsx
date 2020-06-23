@@ -127,7 +127,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <SortStateContext.Provider>
+      <SortStateContext.Provider value={sortState}>
         <WindowFocusHandler setFocusCB={setFocus} />
         <NavBar
           radArrCB={createRandomArray}

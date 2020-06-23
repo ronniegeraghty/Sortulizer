@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import "./visualizer.css";
 import CustomSlider from "./CustomSlider";
@@ -13,6 +13,7 @@ export default function Visualizer({
 }) {
   const [barWidth, setBarWidth] = useState(null);
   const [sortSpeed, setSortSpeed] = useState(100);
+  const sortState = useContext(SortStateContext);
 
   useEffect(() => {
     setBarWidth(90 / array.length);
@@ -28,7 +29,7 @@ export default function Visualizer({
         </p>
       </div>
       <div className="row">
-        <p className="info-data">Comparisons: {comparisons}</p>
+        <p className="info-data">Comparisons: {sortState.comparisons}</p>
       </div>
       <div className="row">
         <p className="info-data sort-speed-data">Sort Speed: </p>
