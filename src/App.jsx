@@ -23,7 +23,7 @@ const App = () => {
    * @param {int} arrLen
    */
   function createRandomArray(arrLen) {
-    setSortState(prevState => ({
+    setSortState((prevState) => ({
       ...switchSortType(prevState.type),
       array: arrayCreator(arrLen),
     }));
@@ -34,7 +34,7 @@ const App = () => {
    * @param {string} sortType
    */
   function setSortType(sortType) {
-    setSortState(prevState => ({
+    setSortState((prevState) => ({
       array: prevState.array,
       ...switchSortType(sortType),
     }));
@@ -55,18 +55,18 @@ const App = () => {
   function setFocus(focus) {
     if (focus) {
       if (sortState.prevStatus === undefined) {
-        setSortState(prevState => ({
+        setSortState((prevState) => ({
           ...prevState,
           status: "inactive",
         }));
       } else {
-        setSortState(prevState => ({
+        setSortState((prevState) => ({
           ...prevState,
           status: prevState.prevStatus,
         }));
       }
     } else {
-      setSortState(prevState => ({
+      setSortState((prevState) => ({
         ...prevState,
         status: "unfocused",
         prevStatus: prevState.status,
@@ -80,17 +80,17 @@ const App = () => {
    */
   function sortButton() {
     if (sortState.status === "active") {
-      setSortState(prevState => ({
+      setSortState((prevState) => ({
         ...prevState,
         status: "paused",
       }));
     } else if (sortState.status === "paused") {
-      setSortState(prevState => ({
+      setSortState((prevState) => ({
         ...prevState,
         status: "active",
       }));
     } else if (sortState.status === "inactive") {
-      setSortState(prevState => ({
+      setSortState((prevState) => ({
         ...prevState,
         ...switchSortType(prevState.type),
         status: "active",
@@ -102,17 +102,17 @@ const App = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (sortState.status === "active") {
-        setSortState(prevState => ({
+        setSortState((prevState) => ({
           ...prevState,
           ...prevState.sort(prevState),
         }));
       } else if (sortState.status === "finished") {
-        setSortState(prevState => ({
+        setSortState((prevState) => ({
           ...prevState,
           ...checkSort(prevState),
         }));
       } else if (sortState.status === "checked") {
-        setSortState(prevState => ({
+        setSortState((prevState) => ({
           ...switchSortType(prevState.type),
           array: prevState.array,
           traversals: prevState.traversals,
@@ -123,29 +123,33 @@ const App = () => {
     return () => clearTimeout(timeout);
   }, [sortState, sortSpeed]);
 
+  const SortStateContext = React.createContext(sortState);
+
   return (
     <div className="App">
-      <WindowFocusHandler setFocusCB={setFocus} />
-      <NavBar
-        radArrCB={createRandomArray}
-        sortType={sortState.type}
-        sortTypeCB={setSortType}
-        sortButtonCB={sortButton}
-        sortStatus={sortState.status}
-        arrayLength={sortState.array.length}
-      />
-      <Sound
-        status={sortState.status}
-        soundFreqs={getScaledFrequencies(sortState)}
-      />
-      <Visualizer
-        array={sortState.array}
-        currentIndexes={sortState.currentIndexes}
-        traversals={sortState.traversals}
-        comparisons={sortState.comparisons}
-        sortSpeedCB={setSpeed}
-      />
-      <Footer />
+      <SortStateContext.Provider>
+        <WindowFocusHandler setFocusCB={setFocus} />
+        <NavBar
+          radArrCB={createRandomArray}
+          sortType={sortState.type}
+          sortTypeCB={setSortType}
+          sortButtonCB={sortButton}
+          sortStatus={sortState.status}
+          arrayLength={sortState.array.length}
+        />
+        <Sound
+          status={sortState.status}
+          soundFreqs={getScaledFrequencies(sortState)}
+        />
+        <Visualizer
+          array={sortState.array}
+          currentIndexes={sortState.currentIndexes}
+          traversals={sortState.traversals}
+          comparisons={sortState.comparisons}
+          sortSpeedCB={setSpeed}
+        />
+        <Footer />
+      </SortStateContext.Provider>
     </div>
   );
 };
