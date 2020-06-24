@@ -142,13 +142,7 @@ const App = () => {
           status={sortState.status}
           soundFreqs={getScaledFrequencies(sortState)}
         />
-        <Visualizer
-          array={sortState.array}
-          currentIndexes={sortState.currentIndexes}
-          traversals={sortState.traversals}
-          comparisons={sortState.comparisons}
-          sortSpeedCB={setSpeed}
-        />
+        <Visualizer sortSpeedCB={setSpeed} />
         <Footer />
       </SortStateContext.Provider>
     </div>
