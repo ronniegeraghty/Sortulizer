@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { SortStateContext } from "../../App";
 import PropTypes from "prop-types";
 import {
   Navbar,
@@ -12,13 +13,15 @@ import {
 } from "react-bootstrap";
 import "./navbar.css";
 
-const NavBar = props => {
-  const [arrayLength, setArrayLength] = useState(undefined);
-  const [savedArrayLength, setSavedArrayLength] = useState(props.arrayLength);
+const NavBar = ({ radArrCB, sortTypeCB, sortButtonCB, arrayLength }) => {
+  // const [arrayLength] = useState(undefined);
+  const [arrayLengthInput, setArrayLengthInput] = useState(undefined);
+  const [savedArrayLength, setSavedArrayLength] = useState(arrayLength);
   const [tooltip, setTooltip] = useState({
     show: false,
     content: "",
   });
+  const [sortState] = useContext(SortStateContext);
   const inputBox = useRef(null);
 
   /**
@@ -28,25 +31,25 @@ const NavBar = props => {
    */
   const randomizeArray = e => {
     e.preventDefault();
-    let arrayLengthInt = parseInt(arrayLength, 10);
-    if (props.sortStatus === "active") {
+    let arrayLengthInt = parseInt(arrayLengthInput, 10);
+    if (sortState.status === "active") {
       setTooltip({
         show: true,
         content: "Pause sort first!",
       });
     } else {
       // If sort status is inactive
-      if (arrayLength === undefined || arrayLength === "") {
+      if (arrayLengthInput === undefined || arrayLengthInput === "") {
         //If input empty use last array length used.
         //Need to test if undefined or "" before isNaN because underfined will also cause isNaN to be true
-        props.radArrCB(savedArrayLength);
-      } else if (isNaN(arrayLength)) {
+        radArrCB(savedArrayLength);
+      } else if (isNaN(arrayLengthInput)) {
         setTooltip({
           show: true,
           content: "Must be an Integer!",
         });
       } else {
-        props.radArrCB(arrayLengthInt);
+        radArrCB(arrayLengthInt);
         setSavedArrayLength(arrayLengthInt);
       }
     }
@@ -57,10 +60,10 @@ const NavBar = props => {
    */
   const sortArray = () => {
     setTooltip({ show: false });
-    props.sortButtonCB();
+    sortButtonCB();
   };
 
-  useEffect(() => {}, [props.sortType]);
+  useEffect(() => {}, [sortState.type]);
 
   return (
     <div>
@@ -76,9 +79,9 @@ const NavBar = props => {
                 type="text"
                 placeholder="Array Length"
                 className="mr-sm-2"
-                value={arrayLength || ""}
+                value={arrayLengthInput || ""}
                 onChange={e => {
-                  setArrayLength(e.target.value);
+                  setArrayLengthInput(e.target.value);
                   setTooltip(prev => ({
                     ...prev,
                     show: false,
@@ -113,21 +116,21 @@ const NavBar = props => {
             <NavDropdown
               title={
                 "Algorithm: " +
-                props.sortType.charAt(0).toUpperCase() +
-                props.sortType.slice(1)
+                sortState.type.charAt(0).toUpperCase() +
+                sortState.type.slice(1)
               }
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item
                 onClick={e => {
-                  props.sortTypeCB("bubble");
+                  sortTypeCB("bubble");
                 }}
               >
                 Bubble Sort
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={e => {
-                  props.sortTypeCB("merge");
+                  sortTypeCB("merge");
                 }}
               >
                 Merge Sort
@@ -136,7 +139,7 @@ const NavBar = props => {
           </div>
 
           <Button onClick={sortArray} variant="outline-info">
-            {props.sortStatus === "active" ? "Pause Sort" : "Start Sort"}
+            {sortState.status === "active" ? "Pause Sort" : "Start Sort"}
           </Button>
         </Nav>
       </Navbar>
@@ -145,12 +148,10 @@ const NavBar = props => {
 };
 
 NavBar.propTypes = {
-  arrayLength: PropTypes.number,
-  sortStatus: PropTypes.string,
   radArrCB: PropTypes.func,
   sortButtonCB: PropTypes.func,
-  sortType: PropTypes.string,
   sortTypeCB: PropTypes.func,
+  arrayLenght: PropTypes.number,
 };
 
 export default NavBar;

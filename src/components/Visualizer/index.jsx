@@ -6,7 +6,7 @@ import CustomSlider from "./CustomSlider";
 import Bar from "../Bar";
 
 export default function Visualizer({ sortSpeedCB }) {
-  const [sortState, setSortState] = useContext(SortStateContext);
+  const [sortState] = useContext(SortStateContext);
   const [barWidth, setBarWidth] = useState(null);
   const [sortSpeed, setSortSpeed] = useState(100);
 

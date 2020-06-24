@@ -132,10 +132,8 @@ const App = () => {
         <WindowFocusHandler setFocusCB={setFocus} />
         <NavBar
           radArrCB={createRandomArray}
-          sortType={sortState.type}
           sortTypeCB={setSortType}
           sortButtonCB={sortButton}
-          sortStatus={sortState.status}
           arrayLength={sortState.array.length}
         />
         <Sound
