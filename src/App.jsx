@@ -11,6 +11,9 @@ import calcTimeInterval from "./functions/calcTimeInterval";
 import { getScaledFrequencies } from "./functions/getFrequencies";
 import "./App.css";
 
+//Implement Statefull context
+const SortStateContext = React.createContext([{}, () => {}]);
+
 const App = () => {
   const [sortState, setSortState] = useState({
     ...switchSortType("bubble"),
@@ -150,4 +153,4 @@ const App = () => {
   );
 };
 
-export default App;
+export { App, SortStateContext };
