@@ -128,27 +128,29 @@ const App = () => {
 
   return (
     <div className="App">
-      <WindowFocusHandler setFocusCB={setFocus} />
-      <NavBar
-        radArrCB={createRandomArray}
-        sortType={sortState.type}
-        sortTypeCB={setSortType}
-        sortButtonCB={sortButton}
-        sortStatus={sortState.status}
-        arrayLength={sortState.array.length}
-      />
-      <Sound
-        status={sortState.status}
-        soundFreqs={getScaledFrequencies(sortState)}
-      />
-      <Visualizer
-        array={sortState.array}
-        currentIndexes={sortState.currentIndexes}
-        traversals={sortState.traversals}
-        comparisons={sortState.comparisons}
-        sortSpeedCB={setSpeed}
-      />
-      <Footer />
+      <SortStateContext.Provider value={[sortState, setSortState]}>
+        <WindowFocusHandler setFocusCB={setFocus} />
+        <NavBar
+          radArrCB={createRandomArray}
+          sortType={sortState.type}
+          sortTypeCB={setSortType}
+          sortButtonCB={sortButton}
+          sortStatus={sortState.status}
+          arrayLength={sortState.array.length}
+        />
+        <Sound
+          status={sortState.status}
+          soundFreqs={getScaledFrequencies(sortState)}
+        />
+        <Visualizer
+          array={sortState.array}
+          currentIndexes={sortState.currentIndexes}
+          traversals={sortState.traversals}
+          comparisons={sortState.comparisons}
+          sortSpeedCB={setSpeed}
+        />
+        <Footer />
+      </SortStateContext.Provider>
     </div>
   );
 };
