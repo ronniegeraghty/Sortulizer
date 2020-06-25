@@ -147,4 +147,5 @@ const App = () => {
   );
 };
 
-export { App, SortStateContext };
+export default App;
+export { SortStateContext };
