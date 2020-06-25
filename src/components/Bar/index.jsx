@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import "./bar.css";
 
 export default function Bar({
@@ -46,3 +47,13 @@ export default function Bar({
     </div>
   );
 }
+
+Bar.propTypes = {
+  number: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  margin: PropTypes.number,
+  textSize: PropTypes.number,
+  sorting: PropTypes.bool,
+  lineHeight: PropTypes.number,
+};
