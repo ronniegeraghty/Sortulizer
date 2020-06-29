@@ -16,7 +16,7 @@ const SortStateContext = React.createContext([{}, () => {}]);
 
 const App = () => {
   const [sortState, setSortState] = useState({
-    ...switchSortType("cocktail"),
+    ...switchSortType("bubble"),
     array: arrayCreator(20),
   });
   const [sortSpeed, setSortSpeed] = useState(100);
