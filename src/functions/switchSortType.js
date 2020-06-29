@@ -1,5 +1,6 @@
 import { INIT_SORT_STATE } from "./sortConstants";
 import { bubbleStartingState } from "./bubbleSort";
+import { cocktailStartingState } from "./cocktailSort";
 import { mergeStartingState } from "./mergeSort";
 
 /**
@@ -12,6 +13,9 @@ export default sortType => {
   switch (sortType) {
     case "bubble":
       newState = { ...bubbleStartingState };
+      break;
+    case "cocktail":
+      newState = { ...cocktailStartingState };
       break;
     case "merge":
       newState = { ...mergeStartingState };

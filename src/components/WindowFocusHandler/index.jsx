@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const WindowFocusHandler = ({ setFocusCB }) => {
   // User has switched back to the tab
@@ -22,6 +23,10 @@ const WindowFocusHandler = ({ setFocusCB }) => {
   });
 
   return <></>;
+};
+
+WindowFocusHandler.propTypes = {
+  setFocusCB: PropTypes.func,
 };
 
 export default WindowFocusHandler;

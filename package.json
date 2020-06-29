@@ -1,6 +1,6 @@
 {
   "name": "sortulizer",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.10.1",
@@ -8,6 +8,7 @@
     "install": "^0.13.0",
     "npm": "^6.14.5",
     "pizzicato": "^0.6.4",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.12",
     "react-dom": "^16.9.0",

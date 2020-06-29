@@ -1,3 +1,7 @@
+/**
+ * This function will do one set of the bubble sort and return the a new sortState showing the results of that step.
+ * @param {object} sortState The current state of the sort
+ */
 const bubbleSort = sortState => {
   let {
     array,
@@ -59,6 +63,9 @@ const bubbleSort = sortState => {
   return nextSortState;
 };
 
+/**
+ * The default starting state for a bubble sort, sets up sortState for the bubble sort process.
+ */
 export const bubbleStartingState = {
   type: "bubble",
   sort: bubbleSort,

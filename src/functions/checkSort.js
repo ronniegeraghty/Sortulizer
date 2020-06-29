@@ -1,3 +1,7 @@
+/**
+ * Will run through the array after the sort once to make sure the array is sorted.
+ * Will changed the sortState.status to checked when the check is done.
+ */
 export default sortState => {
   let { array, currentIndexes, status } = sortState;
   //compare elements

@@ -11,9 +11,12 @@ import calcTimeInterval from "./functions/calcTimeInterval";
 import { getScaledFrequencies } from "./functions/getFrequencies";
 import "./App.css";
 
+//Implement Statefull context
+const SortStateContext = React.createContext([{}, () => {}]);
+
 const App = () => {
   const [sortState, setSortState] = useState({
-    ...switchSortType("bubble"),
+    ...switchSortType("cocktail"),
     array: arrayCreator(20),
   });
   const [sortSpeed, setSortSpeed] = useState(100);
@@ -48,6 +51,10 @@ const App = () => {
     setSortSpeed(speed);
   }
 
+  /**
+   * Changes the sortState when the page is focused or unfocused.
+   * @param {boolean} focus
+   */
   function setFocus(focus) {
     if (focus) {
       if (sortState.prevStatus === undefined) {
@@ -121,29 +128,24 @@ const App = () => {
 
   return (
     <div className="App">
-      <WindowFocusHandler setFocusCB={setFocus} />
-      <NavBar
-        radArrCB={createRandomArray}
-        sortType={sortState.type}
-        sortTypeCB={setSortType}
-        sortButtonCB={sortButton}
-        sortStatus={sortState.status}
-        arrayLength={sortState.array.length}
-      />
-      <Sound
-        status={sortState.status}
-        soundFreqs={getScaledFrequencies(sortState)}
-      />
-      <Visualizer
-        array={sortState.array}
-        currentIndexes={sortState.currentIndexes}
-        traversals={sortState.traversals}
-        comparisons={sortState.comparisons}
-        sortSpeedCB={setSpeed}
-      />
-      <Footer />
+      <SortStateContext.Provider value={[sortState, setSortState]}>
+        <WindowFocusHandler setFocusCB={setFocus} />
+        <NavBar
+          radArrCB={createRandomArray}
+          sortTypeCB={setSortType}
+          sortButtonCB={sortButton}
+          arrayLength={sortState.array.length}
+        />
+        <Sound
+          status={sortState.status}
+          soundFreqs={getScaledFrequencies(sortState)}
+        />
+        <Visualizer sortSpeedCB={setSpeed} />
+        <Footer />
+      </SortStateContext.Provider>
     </div>
   );
 };
 
 export default App;
+export { SortStateContext };
