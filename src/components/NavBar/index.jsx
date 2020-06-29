@@ -130,6 +130,13 @@ const NavBar = ({ radArrCB, sortTypeCB, sortButtonCB, arrayLength }) => {
               </NavDropdown.Item>
               <NavDropdown.Item
                 onClick={e => {
+                  sortTypeCB("cocktail");
+                }}
+              >
+                Cocktail Sort
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={e => {
                   sortTypeCB("merge");
                 }}
               >
